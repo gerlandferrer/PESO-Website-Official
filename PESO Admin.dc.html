@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #E4E3EC; }
+  body { font-family: 'Source Sans 3', system-ui, sans-serif; color: #1B3A93; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #2A7D6F; text-underline-offset: 3px; }
+  a:hover { color: #1B3A93; }
+  button, input, select, textarea { font-family: inherit; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid #2A7D6F; outline-offset: 2px; border-radius: 2px;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { [data-anim] { animation: none !important; transition: none !important; } }
+  /* Desktop keeps its density; touch gets the 44px floor. */
+  @media (pointer: coarse) {
+    button, select, input, textarea, a[href] { min-height: 44px; }
+  }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F1F1F7">
+
+  <header style="position:sticky;top:0;z-index:30;background:#1B3A93;color:#F1F1F7">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px clamp(16px,2vw,28px);flex-wrap:wrap">
+      <div style="display:flex;align-items:baseline;gap:12px;min-width:0">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em">PESO BACOOR</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:rgba(241,241,247,0.6)">STAFF CONSOLE</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.07em;color:rgba(241,241,247,0.76)">
+        <span>{{ today }}</span>
+        <span style="color:rgba(241,241,247,0.34)">|</span>
+        <span>{{ officer }}</span>
+        <span style="color:rgba(241,241,247,0.34)">|</span>
+        <a href="#" style="color:rgba(241,241,247,0.76)">Sign out</a>
+      </div>
+    </div>
+    <nav style="display:flex;gap:2px;padding:0 clamp(16px,2vw,28px);overflow-x:auto">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="6">
+        <button type="button" onClick="{{ tab.go }}" style="flex:none;padding:11px 14px;background:{{ tab.bg }};border:none;border-bottom:2px solid {{ tab.line }};color:{{ tab.fg }};font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;cursor:pointer;white-space:nowrap">{{ tab.label }}</button>
+      </sc-for>
+    </nav>
+  </header>
+
+  <div style="padding:clamp(16px,2vw,26px) clamp(16px,2vw,28px) 60px;max-width:1560px;margin:0 auto">
+
+  <!-- ════════ OVERVIEW ════════ -->
+  <sc-if value="{{ atOverview }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <h1 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:24px;letter-spacing:-0.01em">Overview</h1>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685;border:1px solid #D5D3DE;padding:3px 6px;white-space:nowrap">SAMPLE DATA</span>
+    </div>
+
+    <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(186px,1fr));gap:10px">
+      <sc-for list="{{ stats }}" as="st" hint-placeholder-count="5">
+        <div style="background:{{ st.bg }};border:1px solid {{ st.border }};border-left:3px solid {{ st.accent }};border-radius:3px;padding:14px 15px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:{{ st.labelFg }};line-height:1.5">{{ st.labelUpper }}</div>
+          <div style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:500;letter-spacing:-0.01em;line-height:1;color:{{ st.valueFg }}">{{ st.value }}</div>
+          <div style="margin-top:7px;font-size:13px;line-height:1.4;color:{{ st.noteFg }}">{{ st.note }}</div>
+          <sc-if value="{{ st.isPending }}">
+            <button type="button" onClick="{{ goEmployers }}" style="margin-top:10px;min-height:34px;padding:0 10px;background:#1B3A93;color:#F1F1F7;border:none;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;cursor:pointer">OPEN QUEUE</button>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(430px,1fr));gap:12px">
+
+      <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <h2 style="margin:0;font-size:16px;font-weight:600">Registrations over time</h2>
+          <div style="display:flex;gap:6px;align-items:center">
+            <sc-for list="{{ periods }}" as="p" hint-placeholder-count="3">
+              <button type="button" onClick="{{ p.go }}" style="padding:5px 9px;background:{{ p.bg }};border:1px solid {{ p.border }};border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:{{ p.fg }};cursor:pointer">{{ p.label }}</button>
+            </sc-for>
+            <button type="button" onClick="{{ csvRegistrations }}" style="padding:5px 9px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+          </div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5D6685">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:2px;background:#2A7D6F"></span>JOBSEEKERS</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:2px;background:#1B3A93"></span>EMPLOYERS &times;20</span>
+        </div>
+        <div style="margin-top:10px;position:relative;height:196px;border-left:1px solid #D5D3DE;border-bottom:1px solid #D5D3DE">
+          <svg viewBox="0 0 640 196" preserveAspectRatio="none" style="width:100%;height:196px;display:block" aria-hidden="true">
+            <polyline points="{{ lineJs }}" fill="none" stroke="#2A7D6F" stroke-width="1.75" vector-effect="non-scaling-stroke"></polyline>
+            <polyline points="{{ lineEmp }}" fill="none" stroke="#1B3A93" stroke-width="1.75" stroke-dasharray="4 3" vector-effect="non-scaling-stroke"></polyline>
+          </svg>
+          <div style="position:absolute;top:4px;right:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#5D6685">PEAK {{ lineMax }}</div>
+        </div>
+        <div style="margin-top:6px;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.06em;color:#5D6685">
+          <sc-for list="{{ lineLabels }}" as="lb" hint-placeholder-count="6"><span>{{ lb }}</span></sc-for>
+        </div>
+      </section>
+
+      <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+          <h2 style="margin:0;font-size:16px;font-weight:600">Placements by industry</h2>
+          <button type="button" onClick="{{ csvIndustry }}" style="padding:5px 9px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+        </div>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ industry }}" as="row" hint-placeholder-count="7">
+            <div>
+              <div style="display:flex;justify-content:space-between;gap:10px;font-size:13px">
+                <span>{{ row.label }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;color:#5D6685">{{ row.value }}</span>
+              </div>
+              <div style="margin-top:4px;height:7px;background:#E4E3EC;border-radius:1px">
+                <div style="height:7px;width:{{ row.pct }}%;background:#2A7D6F;border-radius:1px"></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+          <h2 style="margin:0;font-size:16px;font-weight:600">Local vs overseas vacancies</h2>
+          <button type="button" onClick="{{ csvSplit }}" style="padding:5px 9px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5D6685">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:#2A7D6F"></span>LOCAL</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;background:#1B3A93"></span>OVERSEAS</span>
+        </div>
+        <div style="margin-top:14px;display:flex;align-items:flex-end;gap:10px;height:170px">
+          <sc-for list="{{ split }}" as="col" hint-placeholder-count="6">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
+              <div style="height:{{ col.overseasPct }}%;background:#1B3A93"></div>
+              <div style="height:{{ col.localPct }}%;background:#2A7D6F"></div>
+              <div style="margin-top:6px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.05em;color:#5D6685">{{ col.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+          <h2 style="margin:0;font-size:16px;font-weight:600">Jobseekers by barangay</h2>
+          <button type="button" onClick="{{ csvBarangay }}" style="padding:5px 9px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+        </div>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ barangay }}" as="row" hint-placeholder-count="10">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="width:96px;flex:none;font-size:13px">{{ row.label }}</span>
+              <span style="flex:1;height:7px;background:#E4E3EC;border-radius:1px"><span style="display:block;height:7px;width:{{ row.pct }}%;background:#2A7D6F;border-radius:1px"></span></span>
+              <span style="width:44px;flex:none;text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5D6685">{{ row.value }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+          <h2 style="margin:0;font-size:16px;font-weight:600">Employer review turnaround</h2>
+          <button type="button" onClick="{{ csvTurnaround }}" style="padding:5px 9px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:18px;flex-wrap:wrap;align-items:baseline">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500;color:{{ avgColor }}">{{ avgDays }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">AVG DAYS TO DECISION</div>
+          </div>
+          <div style="font-size:13px;color:#5D6685;line-height:1.45;max-width:26ch">Commitment is 1 to 3 business days. Months over 3 are flagged.</div>
+        </div>
+        <div style="margin-top:14px;position:relative;display:flex;align-items:flex-end;gap:10px;height:150px">
+          <div style="position:absolute;left:0;right:0;bottom:{{ targetPct }}%;height:1px;background:#B03A2E;opacity:0.5"></div>
+          <div style="position:absolute;right:0;bottom:{{ targetPct }}%;transform:translateY(-100%);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;color:#B03A2E">3-DAY LIMIT</div>
+          <sc-for list="{{ turnaround }}" as="col" hint-placeholder-count="8">
+            <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%">
+              <div style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:10px;color:{{ col.fg }}">{{ col.days }}</div>
+              <div style="margin-top:4px;height:{{ col.pct }}%;background:{{ col.bg }}"></div>
+              <div style="margin-top:6px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.05em;color:#5D6685">{{ col.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  </sc-if>
+
+  <!-- ════════ EMPLOYERS ════════ -->
+  <sc-if value="{{ atEmployers }}">
+  <main>
+
+    <sc-if value="{{ noEmpSelected }}">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+        <h1 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:24px;letter-spacing:-0.01em">Employers</h1>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">{{ queueCount }}</span>
+          <button type="button" onClick="{{ csvEmployers }}" style="padding:6px 10px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+        </div>
+      </div>
+
+      <section style="margin-top:14px;background:#FBFBFE;border:1px solid #D5D3DE;border-left:3px solid #1B3A93;border-radius:3px;padding:14px 16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#1B3A93;font-weight:500">RE-VERIFICATION &middot; EXPIRING SOON</div>
+            <div style="margin-top:5px;font-size:14px;color:#5D6685;line-height:1.45;max-width:56ch">Permits and DMW licences lapse annually. Requesting updated documents keeps the account verified &mdash; it does not deny it.</div>
+          </div>
+          <button type="button" onClick="{{ csvExpiring }}" style="padding:6px 10px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+        </div>
+        <div style="margin-top:12px;border-top:1px solid #D5D3DE">
+          <sc-for list="{{ expiring }}" as="ex" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #D5D3DE;flex-wrap:wrap">
+              <span style="flex:1;min-width:180px;font-size:14px;font-weight:600">{{ ex.company }}</span>
+              <span style="width:150px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5D6685">{{ ex.doc }}</span>
+              <span style="width:110px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ ex.fg }}">{{ ex.expires }}</span>
+              <span style="width:90px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ ex.fg }}">{{ ex.left }}</span>
+              <button type="button" onClick="{{ ex.request }}" style="flex:none;min-height:34px;padding:0 11px;background:transparent;border:1px solid #1B3A93;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="background:rgba(27,58,147,0.06)">{{ ex.action }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">STATUS</span>
+          <select value="{{ fStatus }}" onChange="{{ setFStatus }}" style="margin-top:5px;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none"><option value="all">All</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="denied">Denied</option><option value="expired">Expired</option></select></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">EMPLOYER TYPE</span>
+          <select value="{{ fType }}" onChange="{{ setFType }}" style="margin-top:5px;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none"><option value="all">All</option><option value="local">Local</option><option value="overseas">Overseas</option><option value="both">Both</option></select></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">DATE SUBMITTED</span>
+          <select value="{{ fDate }}" onChange="{{ setFDate }}" style="margin-top:5px;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none"><option value="all">Any time</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option></select></label>
+        <label style="display:block;flex:1;min-width:200px"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">SEARCH</span>
+          <input type="text" value="{{ fSearch }}" onChange="{{ setFSearch }}" placeholder="Company name or reference" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none" /></label>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685;padding-bottom:11px">OLDEST FIRST</div>
+      </section>
+
+      <section style="margin-top:12px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;overflow-x:auto">
+        <div style="min-width:940px">
+          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 0.8fr 1fr 1fr 110px;gap:12px;padding:10px 14px;border-bottom:1px solid #D5D3DE;background:#F1F1F7;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">
+            <span>COMPANY</span><span>TYPE</span><span>SUBMITTED</span><span>WAITING</span><span>DOCUMENTS</span><span>STATUS</span><span></span>
+          </div>
+          <sc-for list="{{ queue }}" as="row" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 0.8fr 1fr 1fr 110px;gap:12px;padding:12px 14px;border-bottom:1px solid #D5D3DE;align-items:center;border-left:3px solid {{ row.flag }};background:{{ row.rowBg }}">
+              <span style="font-size:14px;font-weight:600;line-height:1.3">{{ row.name }}<span style="display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:400;color:#5D6685">{{ row.id }}</span></span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5D6685">{{ row.type }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5D6685">{{ row.submitted }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ row.waitFg }};font-weight:{{ row.waitWeight }}">{{ row.waiting }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ row.docsFg }}">{{ row.docs }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:{{ row.statusFg }}">{{ row.status }}</span>
+              <button type="button" onClick="{{ row.open }}" style="min-height:36px;padding:0 11px;background:{{ row.btnBg }};color:{{ row.btnFg }};border:1px solid {{ row.btnBorder }};border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">{{ row.btnLabel }}</button>
+            </div>
+          </sc-for>
+          <sc-if value="{{ queueEmpty }}">
+            <div style="padding:30px 16px;text-align:center">
+              <div style="font-size:16px;font-weight:600">Nothing matches these filters.</div>
+              <p style="margin:6px 0 0;font-size:14px;color:#5D6685">Widen the status or date filter to see more.</p>
+            </div>
+          </sc-if>
+        </div>
+      </section>
+    </sc-if>
+
+    <!-- ── DOCUMENT REVIEW ── -->
+    <sc-if value="{{ empSelected }}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:14px;min-width:0">
+          <button type="button" onClick="{{ closeEmp }}" style="min-height:36px;padding:0 11px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">&#8592; QUEUE</button>
+          <div style="min-width:0">
+            <h1 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:21px;letter-spacing:-0.01em;line-height:1.2">{{ empName }}</h1>
+            <div style="margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5D6685">{{ empMeta }}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button type="button" onClick="{{ toggleAudit }}" style="min-height:36px;padding:0 11px;background:{{ auditBg }};color:{{ auditFg }};border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;cursor:pointer">AUDIT LOG</button>
+        </div>
+      </div>
+
+      <sc-if value="{{ showAudit }}">
+        <section style="margin-top:12px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:14px 16px" data-anim="1">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5D6685">AUDIT LOG &middot; READ ONLY</div>
+            <button type="button" onClick="{{ csvAudit }}" style="padding:5px 9px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+          </div>
+          <div style="margin-top:10px;border-top:1px solid #D5D3DE">
+            <sc-for list="{{ auditRows }}" as="a" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:150px 130px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid #D5D3DE;align-items:baseline">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5D6685">{{ a.when }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px">{{ a.who }}</span>
+                <span style="font-size:14px;line-height:1.4">{{ a.what }}<span style="display:block;margin-top:2px;font-size:13px;color:#5D6685">{{ a.why }}</span></span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ auditEmpty }}">
+              <div style="padding:18px 0;font-size:14px;color:#5D6685">No decisions recorded yet. Entries appear here the moment a document is actioned.</div>
+            </sc-if>
+          </div>
+        </section>
+      </sc-if>
+
+      <div style="margin-top:12px;display:grid;grid-template-columns:{{ reviewCols }};gap:12px;align-items:start">
+
+        <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;position:sticky;top:96px">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;border-bottom:1px solid #D5D3DE;background:#F1F1F7;flex-wrap:wrap">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685;min-width:0">{{ viewerName }}</div>
+            <div style="display:flex;gap:5px;align-items:center">
+              <button type="button" onClick="{{ zoomOut }}" aria-label="Zoom out" style="width:32px;height:32px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B3A93">&minus;</button>
+              <span style="min-width:44px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5D6685">{{ zoomLabel }}</span>
+              <button type="button" onClick="{{ zoomIn }}" aria-label="Zoom in" style="width:32px;height:32px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B3A93">+</button>
+              <button type="button" onClick="{{ rotate }}" style="height:32px;padding:0 9px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93">ROTATE</button>
+              <button type="button" style="height:32px;padding:0 9px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93">DOWNLOAD</button>
+            </div>
+          </div>
+          <div style="height:min(72vh,760px);overflow:auto;background:#E4E3EC;display:flex;align-items:flex-start;justify-content:center;padding:18px">
+            <div style="width:{{ pageW }}px;flex:none;transform:rotate({{ rotateDeg }}deg);transform-origin:center top;background:#FBFBFE;border:1px solid #D5D3DE;box-shadow:0 2px 10px rgba(27,58,147,0.14);padding:26px">
+              <div style="height:{{ pageH }}px;border:1px dashed #D5D3DE;background:repeating-linear-gradient(45deg,rgba(27,58,147,0.05) 0 8px,transparent 8px 16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:20px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;color:#5D6685">DOCUMENT PREVIEW</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5D6685;line-height:1.6">{{ viewerName }}<br />PDF AND IMAGE RENDER INLINE HERE</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:14px 16px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5D6685">DOCUMENT CHECKLIST</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:{{ actionedFg }}">{{ actionedLabel }}</div>
+            </div>
+
+            <sc-if value="{{ needsDmw }}">
+              <div style="margin-top:14px;padding:12px;border:1px solid #D5D3DE;border-radius:3px;background:#F1F1F7">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">DMW LICENCE ON RECORD</div>
+                <div style="margin-top:9px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
+                  <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685">LICENCE NUMBER</span>
+                    <input type="text" value="{{ dmwNo }}" onChange="{{ setDmwNo }}" placeholder="POEA-000-LB-000000-R" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B3A93;outline:none" /></label>
+                  <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685">EXPIRY DATE</span>
+                    <input type="date" value="{{ dmwExp }}" onChange="{{ setDmwExp }}" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B3A93;outline:none" /></label>
+                </div>
+                <div style="margin-top:8px;font-size:13px;line-height:1.45;color:{{ dmwNoteFg }}">{{ dmwNote }}</div>
+              </div>
+            </sc-if>
+
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ docs }}" as="doc" hint-placeholder-count="8">
+                <div style="border:1px solid {{ doc.border }};border-left:3px solid {{ doc.accent }};border-radius:3px;padding:11px 12px;background:{{ doc.bg }}">
+                  <div style="display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap">
+                    <button type="button" onClick="{{ doc.view }}" style="flex:1;min-width:170px;text-align:left;background:none;border:none;padding:0;cursor:pointer;font-family:'Source Sans 3',sans-serif">
+                      <span style="display:block;font-size:14px;font-weight:600;line-height:1.3;color:#1B3A93">{{ doc.name }}</span>
+                      <span style="display:block;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.07em;color:#5D6685">{{ doc.meta }}</span>
+                    </button>
+                    <sc-if value="{{ doc.received }}" hint-placeholder-val="{{ true }}">
+                      <div style="display:flex;gap:6px;flex:none">
+                        <button type="button" onClick="{{ doc.accept }}" style="min-height:34px;padding:0 10px;background:{{ doc.acceptBg }};color:{{ doc.acceptFg }};border:1px solid {{ doc.acceptBorder }};border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">ACCEPT</button>
+                        <button type="button" onClick="{{ doc.reject }}" style="min-height:34px;padding:0 10px;background:{{ doc.rejectBg }};color:{{ doc.rejectFg }};border:1px solid {{ doc.rejectBorder }};border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">REJECT</button>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ doc.notReceived }}">
+                      <span style="flex:none;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#B03A2E;padding:8px 0">NOT SUBMITTED</span>
+                    </sc-if>
+                  </div>
+                  <sc-if value="{{ doc.isRejected }}">
+                    <label style="display:block;margin-top:10px"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#B03A2E">REASON &mdash; THE EMPLOYER SEES THIS</span>
+                      <textarea value="{{ doc.reason }}" onChange="{{ doc.setReason }}" rows="2" placeholder="Say what is wrong and what to send instead." style="margin-top:5px;width:100%;padding:9px 10px;background:#FBFBFE;border:1px solid #B03A2E;border-radius:3px;font-size:14px;font-family:'Source Sans 3',sans-serif;color:#1B3A93;outline:none;resize:vertical;line-height:1.45"></textarea></label>
+                  </sc-if>
+                  <sc-if value="{{ doc.isAccepted }}">
+                    <div style="margin-top:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#2A7D6F">ACCEPTED &middot; {{ officer }}</div>
+                  </sc-if>
+                  <sc-if value="{{ doc.notReceived }}">
+                    <div style="margin-top:8px;font-size:13px;line-height:1.45;color:#5D6685">{{ doc.missingNote }}</div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:14px 16px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:{{ decisionHintFg }};line-height:1.6">{{ decisionHint }}</div>
+            <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+              <button type="button" onClick="{{ askApprove }}" disabled="{{ approveBlocked }}" style="flex:1;min-width:180px;min-height:46px;padding:0 16px;background:{{ approveBg }};color:{{ approveFg }};border:none;border-radius:3px;font-size:16px;font-weight:600;cursor:{{ approveCursor }}">Approve employer</button>
+              <button type="button" onClick="{{ askDeny }}" disabled="{{ denyBlocked }}" style="flex:1;min-width:180px;min-height:46px;padding:0 16px;background:transparent;color:{{ denyFg }};border:1px solid {{ denyBorder }};border-radius:3px;font-size:16px;font-weight:600;cursor:{{ denyCursor }}">Deny employer</button>
+            </div>
+            <div style="margin-top:10px;font-size:13px;color:#5D6685;line-height:1.5">Every decision is written to the audit log with your name, the time, and the reason for each document.</div>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+  </main>
+  </sc-if>
+
+  <!-- ════════ JOBSEEKERS ════════ -->
+  <sc-if value="{{ atJobseekers }}">
+  <main>
+    <sc-if value="{{ noJsSelected }}">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+        <h1 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:24px;letter-spacing:-0.01em">Jobseekers</h1>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">{{ jsCount }}</span>
+          <button type="button" onClick="{{ csvJobseekers }}" style="padding:6px 10px;background:#1B3A93;color:#F1F1F7;border:none;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">EXPORT CSV</button>
+        </div>
+      </div>
+
+      <section style="margin-top:14px;background:#FBFBFE;border:1px solid #D5D3DE;border-left:3px solid #2A7D6F;border-radius:3px;padding:14px 16px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#2A7D6F;font-weight:500">MATCH AGAINST A VACANCY</div>
+        <div style="margin-top:5px;font-size:14px;color:#5D6685;line-height:1.45;max-width:60ch">Pick a posting and the table narrows to jobseekers whose barangay or listed skills fit it. Export the result for job fair invitations.</div>
+        <div style="margin-top:11px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <select value="{{ matchVac }}" onChange="{{ setMatchVac }}" style="flex:1;min-width:260px;height:38px;padding:0 10px;background:#F1F1F7;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none">
+            <option value="">No vacancy filter</option>
+            <sc-for list="{{ vacancies }}" as="v" hint-placeholder-count="3"><option value="{{ v.id }}">{{ v.label }}</option></sc-for>
+          </select>
+          <sc-if value="{{ matchActive }}">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#2A7D6F">{{ matchNote }}</span>
+          </sc-if>
+        </div>
+      </section>
+
+      <section style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <label style="display:block;flex:1;min-width:200px"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">SEARCH</span>
+          <input type="text" value="{{ jsSearch }}" onChange="{{ setJsSearch }}" placeholder="Name, reference, or skill" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none" /></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">BARANGAY</span>
+          <select value="{{ jsBarangay }}" onChange="{{ setJsBarangay }}" style="margin-top:5px;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none"><option value="all">All</option><sc-for list="{{ barangayNames }}" as="b" hint-placeholder-count="5"><option>{{ b }}</option></sc-for></select></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">EDUCATION</span>
+          <select value="{{ jsEduc }}" onChange="{{ setJsEduc }}" style="margin-top:5px;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none"><option value="all">All</option><option>Elementary</option><option>High school</option><option>Senior high school</option><option>Vocational / TESDA</option><option>College</option></select></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">STATUS</span>
+          <select value="{{ jsStatus }}" onChange="{{ setJsStatus }}" style="margin-top:5px;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none"><option value="all">All</option><option>Active</option><option>Referred</option><option>Placed</option></select></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">PROFILE</span>
+          <select value="{{ jsPct }}" onChange="{{ setJsPct }}" style="margin-top:5px;height:38px;padding:0 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none"><option value="all">Any</option><option value="100">Complete only</option><option value="50">50% or more</option></select></label>
+      </section>
+
+      <section style="margin-top:12px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;overflow-x:auto">
+        <div style="min-width:1080px">
+          <div style="display:grid;grid-template-columns:1.6fr 1fr 60px 1.2fr 1.8fr 1fr 1fr 1fr;gap:12px;padding:10px 14px;border-bottom:1px solid #D5D3DE;background:#F1F1F7;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">
+            <span>NAME</span><span>BARANGAY</span><span>AGE</span><span>EDUCATION</span><span>SKILLS</span><span>PROFILE</span><span>REGISTERED</span><span>STATUS</span>
+          </div>
+          <sc-for list="{{ jobseekers }}" as="p" hint-placeholder-count="10">
+            <button type="button" onClick="{{ p.open }}" style="display:grid;width:100%;text-align:left;grid-template-columns:1.6fr 1fr 60px 1.2fr 1.8fr 1fr 1fr 1fr;gap:12px;padding:11px 14px;border:none;border-bottom:1px solid #D5D3DE;background:#FBFBFE;align-items:center;cursor:pointer;font-family:'Source Sans 3',sans-serif" style-hover="background:#F6F3EC">
+              <span style="font-size:14px;font-weight:600">{{ p.name }}<span style="display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:400;color:#5D6685">{{ p.id }}</span></span>
+              <span style="font-size:13px;color:#5D6685">{{ p.barangay }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5D6685">{{ p.age }}</span>
+              <span style="font-size:13px;color:#5D6685">{{ p.educ }}</span>
+              <span style="font-size:13px;color:#5D6685;line-height:1.35">{{ p.skills }}</span>
+              <span style="display:flex;align-items:center;gap:7px"><span style="flex:1;height:5px;background:#E4E3EC;border-radius:1px"><span style="display:block;height:5px;width:{{ p.pct }}%;background:{{ p.pctColor }};border-radius:1px"></span></span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5D6685">{{ p.pct }}</span></span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5D6685">{{ p.registered }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:{{ p.statusFg }}">{{ p.statusUpper }}</span>
+            </button>
+          </sc-for>
+          <sc-if value="{{ jsEmpty }}">
+            <div style="padding:30px 16px;text-align:center">
+              <div style="font-size:16px;font-weight:600">No jobseekers match these filters.</div>
+              <p style="margin:6px 0 0;font-size:14px;color:#5D6685">Clear the vacancy filter or widen the barangay and education filters.</p>
+            </div>
+          </sc-if>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ jsSelected }}">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <button type="button" onClick="{{ closeJs }}" style="min-height:36px;padding:0 11px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">&#8592; TABLE</button>
+        <div>
+          <h1 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:21px;letter-spacing:-0.01em">{{ jsProfileName }}</h1>
+          <div style="margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5D6685">{{ jsProfileMeta }}</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start">
+        <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:14px 16px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5D6685">INTAKE RECORD</div>
+          <div style="margin-top:10px;border-top:1px solid #D5D3DE">
+            <sc-for list="{{ jsProfileRows }}" as="r" hint-placeholder-count="8">
+              <div style="display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #D5D3DE">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685">{{ r.k }}</span>
+                <span style="font-size:14px;text-align:right;line-height:1.4">{{ r.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+        <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:14px 16px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5D6685">REFERRAL HISTORY</div>
+          <div style="margin-top:10px;border-top:1px solid #D5D3DE">
+            <sc-for list="{{ jsReferrals }}" as="r" hint-placeholder-count="2">
+              <div style="padding:10px 0;border-bottom:1px solid #D5D3DE">
+                <div style="font-size:14px;font-weight:600">{{ r.title }}</div>
+                <div style="margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.07em;color:#5D6685">{{ r.meta }}</div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ jsNoReferrals }}">
+              <div style="padding:16px 0;font-size:14px;color:#5D6685;line-height:1.5">No referrals yet. Use the vacancy filter on the table to find a posting that fits this profile.</div>
+            </sc-if>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+  </main>
+  </sc-if>
+
+  <!-- ════════ JOB POSTINGS ════════ -->
+  <sc-if value="{{ atPostings }}">
+  <main>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <h1 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:24px;letter-spacing:-0.01em">Job postings</h1>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">{{ postingCount }}</span>
+        <button type="button" onClick="{{ csvPostings }}" style="padding:6px 10px;background:transparent;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#1B3A93;cursor:pointer" style-hover="border-color:#1B3A93">CSV</button>
+      </div>
+    </div>
+
+    <section style="margin-top:14px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;overflow-x:auto">
+      <div style="min-width:1040px">
+        <div style="display:grid;grid-template-columns:1.8fr 1.6fr 1fr 1fr 0.8fr 0.9fr 120px;gap:12px;padding:10px 14px;border-bottom:1px solid #D5D3DE;background:#F1F1F7;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5D6685">
+          <span>POSITION</span><span>EMPLOYER</span><span>POSTED</span><span>EXPIRES</span><span>VIEWS</span><span>APPLIED</span><span></span>
+        </div>
+        <sc-for list="{{ postings }}" as="p" hint-placeholder-count="6">
+          <div style="border-bottom:1px solid #D5D3DE;background:{{ p.rowBg }}">
+            <div style="display:grid;grid-template-columns:1.8fr 1.6fr 1fr 1fr 0.8fr 0.9fr 120px;gap:12px;padding:11px 14px;align-items:center">
+              <span style="font-size:14px;font-weight:600;line-height:1.3;color:{{ p.titleFg }}">{{ p.title }}<span style="display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:400;color:#5D6685">{{ p.id }} &middot; {{ p.scope }}</span></span>
+              <span style="font-size:13px;color:#5D6685">{{ p.employer }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5D6685">{{ p.posted }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ p.expFg }}">{{ p.expires }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5D6685">{{ p.views }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">{{ p.applications }}</span>
+              <button type="button" onClick="{{ p.toggle }}" style="min-height:36px;padding:0 10px;background:transparent;color:{{ p.btnFg }};border:1px solid {{ p.btnBorder }};border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">{{ p.btnLabel }}</button>
+            </div>
+            <sc-if value="{{ p.takingDown }}">
+              <div style="padding:0 14px 14px" data-anim="1">
+                <div style="border:1px solid #B03A2E;border-left-width:3px;border-radius:3px;padding:12px">
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#B03A2E">REASON FOR TAKE-DOWN &mdash; WRITTEN TO THE AUDIT LOG</div>
+                  <textarea value="{{ p.reason }}" onChange="{{ p.setReason }}" rows="2" placeholder="e.g. Employer confirmed the position is filled." style="margin-top:7px;width:100%;padding:9px 10px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;font-family:'Source Sans 3',sans-serif;color:#1B3A93;outline:none;resize:vertical;line-height:1.45"></textarea>
+                  <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+                    <button type="button" onClick="{{ p.confirm }}" disabled="{{ p.blocked }}" style="min-height:40px;padding:0 14px;background:{{ p.confirmBg }};color:{{ p.confirmFg }};border:none;border-radius:3px;font-size:15px;font-weight:600;cursor:{{ p.confirmCursor }}">Take down posting</button>
+                    <button type="button" onClick="{{ p.cancel }}" style="min-height:40px;padding:0 14px;background:transparent;color:#1B3A93;border:1px solid #D5D3DE;border-radius:3px;font-size:15px;font-weight:600;cursor:pointer">Keep it up</button>
+                  </div>
+                  <sc-if value="{{ p.blocked }}">
+                    <div style="margin-top:8px;font-size:13px;color:#B03A2E">A reason is required. The employer is told why their posting came down.</div>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ p.isDown }}">
+              <div style="padding:0 14px 12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#B03A2E;line-height:1.6">TAKEN DOWN {{ today }} BY {{ officer }}<span style="display:block;color:#5D6685;letter-spacing:0.04em">{{ p.downReason }}</span></div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ════════ REPORTS ════════ -->
+  <sc-if value="{{ atReports }}">
+  <main>
+    <h1 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:24px;letter-spacing:-0.01em">Reports</h1>
+    <p style="margin:10px 0 0;font-size:15px;line-height:1.55;max-width:56ch;color:#5D6685">Every figure here comes from the same records staff work from daily. Export as CSV and attach it to the DOLE submission without retyping anything.</p>
+    <section style="margin-top:16px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px">
+      <sc-for list="{{ reports }}" as="r" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border-bottom:1px solid #D5D3DE;flex-wrap:wrap">
+          <div style="min-width:0">
+            <div style="font-size:15px;font-weight:600;line-height:1.3">{{ r.name }}</div>
+            <div style="margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5D6685">{{ r.period }} &middot; {{ r.rows }} ROWS</div>
+          </div>
+          <button type="button" onClick="{{ r.export }}" style="flex:none;min-height:38px;padding:0 13px;background:#1B3A93;color:#F1F1F7;border:none;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">EXPORT CSV</button>
+        </div>
+      </sc-for>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ════════ SETTINGS ════════ -->
+  <sc-if value="{{ atSettings }}">
+  <main>
+    <h1 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:24px;letter-spacing:-0.01em">Settings</h1>
+    <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;align-items:start">
+      <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5D6685">OFFICE DETAILS</div>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:14px">
+          <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685">PUBLIC CONTACT NUMBER</span><input type="tel" value="(046) 000-0000" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#F1F1F7;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B3A93;outline:none" /></label>
+          <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685">ANTI-ILLEGAL-RECRUITMENT HOTLINE</span><input type="tel" value="(046) 000-0000" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#F1F1F7;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B3A93;outline:none" /></label>
+          <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685">OFFICE HOURS</span><input type="text" value="Monday to Friday, 8:00–17:00" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#F1F1F7;border:1px solid #D5D3DE;border-radius:3px;font-size:14px;color:#1B3A93;outline:none" /></label>
+        </div>
+      </section>
+      <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5D6685">REVIEW COMMITMENT</div>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:14px">
+          <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685">DECISION TARGET (BUSINESS DAYS)</span><input type="number" value="3" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#F1F1F7;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B3A93;outline:none" /></label>
+          <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5D6685">FLAG RE-VERIFICATION AT (DAYS BEFORE EXPIRY)</span><input type="number" value="45" style="margin-top:5px;width:100%;height:38px;padding:0 10px;background:#F1F1F7;border:1px solid #D5D3DE;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B3A93;outline:none" /></label>
+          <div style="font-size:13px;color:#5D6685;line-height:1.5">Rows past the decision target are flagged in the employer queue and counted against turnaround on the overview.</div>
+        </div>
+      </section>
+      <section style="background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5D6685">STAFF ACCOUNTS</div>
+        <div style="margin-top:10px;border-top:1px solid #D5D3DE">
+          <sc-for list="{{ staff }}" as="s" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #D5D3DE">
+              <span style="font-size:14px;font-weight:600">{{ s.name }}<span style="display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:400;color:#5D6685">{{ s.role }}</span></span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5D6685">{{ s.last }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </div>
+  </main>
+  </sc-if>
+
+  </div>
+
+  <!-- ════════ DIALOGS ════════ -->
+  <sc-if value="{{ dialogApprove }}">
+    <div style="position:fixed;inset:0;z-index:60;background:rgba(27,58,147,0.55);display:flex;align-items:center;justify-content:center;padding:20px" data-anim="1">
+      <div style="width:100%;max-width:520px;background:#F1F1F7;border-radius:3px;padding:22px 24px;box-shadow:0 18px 50px rgba(12,22,60,0.42)">
+        <div style="display:flex;align-items:center;gap:8px" data-anim="1">
+          <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid #C8952E;flex:none"></span>
+          <span style="flex:1;height:1px;background:repeating-linear-gradient(90deg,#C8952E 0 4px,transparent 4px 7px)"></span>
+        </div>
+        <h2 style="margin:14px 0 0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-0.01em">Issue the verified badge to {{ empName }}?</h2>
+        <p style="margin:12px 0 0;font-size:15px;line-height:1.55">Their account unlocks and they can post vacancies immediately. The badge carries today&#8217;s date and your name.</p>
+        <div style="margin-top:16px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:12px">
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-family:'IBM Plex Mono',monospace;font-size:11px"><span style="color:#5D6685">APPROVAL DATE</span><span>{{ today }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-family:'IBM Plex Mono',monospace;font-size:11px"><span style="color:#5D6685">REVIEWING OFFICER</span><span>{{ officer }}</span></div>
+          <div style="display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-family:'IBM Plex Mono',monospace;font-size:11px"><span style="color:#5D6685">DOCUMENTS ACCEPTED</span><span>{{ acceptedCount }}</span></div>
+        </div>
+        <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" onClick="{{ confirmApprove }}" style="flex:1;min-width:170px;min-height:46px;padding:0 16px;background:#2A7D6F;color:#F1F1F7;border:none;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer">Approve and issue badge</button>
+          <button type="button" onClick="{{ closeDialog }}" style="flex:1;min-width:130px;min-height:46px;padding:0 16px;background:transparent;color:#1B3A93;border:1px solid #1B3A93;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer">Go back</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ dialogDeny }}">
+    <div style="position:fixed;inset:0;z-index:60;background:rgba(27,58,147,0.55);display:flex;align-items:center;justify-content:center;padding:20px" data-anim="1">
+      <div style="width:100%;max-width:600px;max-height:88vh;overflow:auto;background:#F1F1F7;border-radius:3px;padding:22px 24px;box-shadow:0 18px 50px rgba(12,22,60,0.42)">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#B03A2E;font-weight:500">NOTIFICATION PREVIEW &middot; NOT SENT YET</div>
+        <h2 style="margin:12px 0 0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:22px;line-height:1.15;letter-spacing:-0.01em">This is what {{ empName }} will receive</h2>
+        <div style="margin-top:16px;background:#FBFBFE;border:1px solid #D5D3DE;border-radius:3px;padding:16px">
+          <div style="font-size:15px;line-height:1.55">{{ denyIntro }}</div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ denyList }}" as="d" hint-placeholder-count="1">
+              <div style="border-left:3px solid #B03A2E;padding:2px 0 2px 12px">
+                <div style="font-size:14px;font-weight:600;line-height:1.3">{{ d.name }}</div>
+                <div style="margin-top:4px;font-size:14px;line-height:1.5">{{ d.reason }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="margin-top:14px;font-size:14px;line-height:1.55;color:#5D6685">{{ denyFooter }}</div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid #D5D3DE;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5D6685;line-height:1.7">REVIEWED BY {{ officer }} &middot; {{ today }}<br />PESO BACOOR &middot; A FREE SERVICE UNDER RA 8759</div>
+        </div>
+        <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" onClick="{{ confirmDeny }}" style="flex:1;min-width:190px;min-height:46px;padding:0 16px;background:#B03A2E;color:#F1F1F7;border:none;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer">Send and record decision</button>
+          <button type="button" onClick="{{ closeDialog }}" style="flex:1;min-width:130px;min-height:46px;padding:0 16px;background:transparent;color:#1B3A93;border:1px solid #1B3A93;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer">Keep editing</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}">
+    <div style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:70;max-width:min(560px,92vw);background:#1B3A93;color:#F1F1F7;border-left:3px solid {{ toastAccent }};border-radius:3px;padding:13px 16px;box-shadow:0 12px 34px rgba(12,22,60,0.42)" data-anim="1">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:{{ toastAccent }}">{{ toastTag }}</div>
+      <div style="margin-top:5px;font-size:15px;line-height:1.45">{{ toast }}</div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:980}}">
+class Component extends DCLogic {
+  state = {
+    tab: 'overview', data: null, docDefs: null,
+    period: 'month',
+    fStatus: 'all', fType: 'all', fDate: 'all', fSearch: '',
+    selEmp: null, decisions: {}, dmw: {}, showAudit: false, extraAudit: {}, decided: {},
+    viewerDoc: null, zoom: 100, rot: 0,
+    dialog: null, toast: '', toastTag: '', toastAccent: '#2A7D6F',
+    jsSearch: '', jsBarangay: 'all', jsEduc: 'all', jsStatus: 'all', jsPct: 'all',
+    matchVac: '', selJs: null,
+    takedown: null, tdReason: {}, downed: {},
+    requested: {}
+  };
+
+  componentDidMount() {
+    fetch('./admin-data.json').then((r) => (r.ok ? r.json() : null)).then((d) => { if (d) this.setState({ data: d }); }).catch(() => {});
+    fetch('./peso-data.json').then((r) => (r.ok ? r.json() : null)).then((d) => { if (d && d.employerDocs) this.setState({ docDefs: d.employerDocs }); }).catch(() => {});
+  }
+
+  flash(tag, msg, accent) {
+    this.setState({ toast: msg, toastTag: tag, toastAccent: accent || '#2A7D6F' });
+    if (this._t) clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ toast: '' }), 4200);
+  }
+
+  csv(name, header, rows) {
+    const esc = (v) => {
+      const s = String(v == null ? '' : v);
+      return /[",\n]/.test(s) ? '"' + s.split('"').join('""') + '"' : s;
+    };
+    const body = [header.map(esc).join(',')].concat(rows.map((r) => r.map(esc).join(','))).join('\r\n');
+    try {
+      const url = URL.createObjectURL(new Blob(['\ufeff' + body], { type: 'text/csv;charset=utf-8' }));
+      const a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      this.flash('EXPORTED', name + ' downloaded. ' + rows.length + ' rows.');
+    } catch (e) { this.flash('EXPORT FAILED', 'Could not build the file. Try again.', '#B03A2E'); }
+  }
+
+  empDocsFor(emp) {
+    const dd = this.state.docDefs || { local: [], overseasExtra: [] };
+    const base = dd.local || [];
+    const all = emp && (emp.type === 'overseas' || emp.type === 'both')
+      ? base.concat(dd.overseasExtra || [])
+      : base.slice();
+    // The employer only sent docsDone files; the rest were never submitted.
+    const sent = emp ? emp.docsDone : all.length;
+    return all.map((x, i) => Object.assign({}, x, { received: i < sent }));
+  }
+
+  fallback() {
+    return { stats: [], registrations: { month: [], quarter: [], year: [] }, placementsByIndustry: [],
+      vacancySplit: [], byBarangay: [], turnaround: [], turnaroundTarget: 3, employers: [], expiring: [],
+      audit: {}, jobseekers: [], vacancyFilters: [], postings: [], reports: [], generated: '' };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const d = s.data || this.fallback();
+    const today = '18 AUG 2026';
+    const officer = 'R. Dela Cruz';
+    const U = (x) => String(x || '').toUpperCase();
+
+    const tabDefs = [
+      ['overview', 'OVERVIEW'], ['employers', 'EMPLOYERS'], ['jobseekers', 'JOBSEEKERS'],
+      ['postings', 'JOB POSTINGS'], ['reports', 'REPORTS'], ['settings', 'SETTINGS']
+    ];
+
+    // ── charts
+    const series = (d.registrations && d.registrations[s.period]) || [];
+    const maxJs = Math.max(1, ...series.map((x) => x.jobseekers));
+    const pts = (key, scale) => series.map((x, i) => {
+      const px = series.length > 1 ? (i / (series.length - 1)) * 636 + 2 : 320;
+      const py = 190 - ((x[key] * (scale || 1)) / maxJs) * 184;
+      return px.toFixed(1) + ',' + Math.max(2, py).toFixed(1);
+    }).join(' ');
+    const maxInd = Math.max(1, ...(d.placementsByIndustry || []).map((x) => x.value));
+    const maxBrgy = Math.max(1, ...(d.byBarangay || []).map((x) => x.value));
+    const maxSplit = Math.max(1, ...(d.vacancySplit || []).map((x) => x.local + x.overseas));
+    const target = d.turnaroundTarget || 3;
+    const maxDays = Math.max(target + 1.2, ...(d.turnaround || []).map((x) => x.days));
+    const avg = (d.turnaround || []).length
+      ? (d.turnaround.reduce((a, b) => a + b.days, 0) / d.turnaround.length)
+      : 0;
+
+    // ── employer queue
+    const order = { pending: 0, denied: 1, approved: 2, expired: 3 };
+    const liveStatus = (e) => s.decided[e.id] || e.status;
+    const queueAll = (d.employers || []).slice().sort((a, b) => (order[liveStatus(a)] - order[liveStatus(b)]) || (b.days - a.days));
+    const queue = queueAll.filter((e) => {
+      if (s.fStatus !== 'all' && liveStatus(e) !== s.fStatus) return false;
+      if (s.fType !== 'all' && e.type !== s.fType) return false;
+      if (s.fDate !== 'all') {
+        const limit = parseInt(s.fDate, 10);
+        const day = parseInt((e.submitted || '').slice(0, 2), 10);
+        const aug = /AUG/.test(e.submitted || '');
+        const ago = aug ? 18 - day : 999;
+        if (ago > limit) return false;
+      }
+      const q = s.fSearch.trim().toLowerCase();
+      if (q && (e.name + ' ' + e.id).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+    const statusFg = { pending: '#1B3A93', approved: '#8A6414', denied: '#B03A2E', expired: '#5D6685' };
+    const pendingNow = (d.employers || []).filter((e) => liveStatus(e) === 'pending').length;
+    const lateNow = (d.employers || []).filter((e) => liveStatus(e) === 'pending' && e.days > 3).length;
+    const plural = (n, word) => n + ' ' + word + (n === 1 ? '' : 's');
+
+    // ── selected employer + document decisions
+    const emp = (d.employers || []).filter((e) => e.id === s.selEmp)[0] || null;
+    const empDocs = this.empDocsFor(emp);
+    const dec = (emp && s.decisions[emp.id]) || {};
+    const received = empDocs.filter((x) => x.received);
+    const notSent = empDocs.filter((x) => !x.received);
+    const missingRequired = notSent.filter((x) => x.required);
+    const actioned = received.filter((x) => dec[x.id] && dec[x.id].state).length;
+    const rejected = received.filter((x) => dec[x.id] && dec[x.id].state === 'reject');
+    const accepted = received.filter((x) => dec[x.id] && dec[x.id].state === 'accept');
+    const allActioned = received.length > 0 && actioned === received.length;
+    const rejectsWithReason = rejected.filter((x) => (dec[x.id].reason || '').trim().length > 2);
+    const canApprove = allActioned && rejected.length === 0 && missingRequired.length === 0;
+    const canDeny = allActioned && (rejected.length > 0 || missingRequired.length > 0) && rejectsWithReason.length === rejected.length;
+    const viewerDoc = empDocs.filter((x) => x.id === s.viewerDoc && x.received)[0] || received[0] || { name: 'No document submitted' };
+    const dmwRec = (emp && s.dmw[emp.id]) || {};
+    const dmwNo = dmwRec.no != null ? dmwRec.no : (emp && emp.dmwNo) || '';
+    const dmwExp = dmwRec.exp != null ? dmwRec.exp : (emp && emp.dmwExpiry) || '';
+    const dmwDays = dmwExp ? Math.round((new Date(dmwExp) - new Date('2026-08-18')) / 86400000) : null;
+
+    const baseAudit = (emp && d.audit && d.audit[emp.id]) || [];
+    const auditRows = ((emp && s.extraAudit[emp.id]) || []).concat(baseAudit);
+
+    // ── jobseekers
+    const vac = (d.vacancyFilters || []).filter((v) => v.id === s.matchVac)[0] || null;
+    const jsAll = (d.jobseekers || []).filter((p) => {
+      const q = s.jsSearch.trim().toLowerCase();
+      if (q && (p.name + ' ' + p.id + ' ' + p.skills.join(' ')).toLowerCase().indexOf(q) === -1) return false;
+      if (s.jsBarangay !== 'all' && p.barangay !== s.jsBarangay) return false;
+      if (s.jsEduc !== 'all' && p.educ !== s.jsEduc) return false;
+      if (s.jsStatus !== 'all' && p.status !== s.jsStatus) return false;
+      if (s.jsPct !== 'all' && p.pct < parseInt(s.jsPct, 10)) return false;
+      if (vac) {
+        const skillHit = p.skills.some((sk) => vac.skills.some((vs) => vs.toLowerCase() === sk.toLowerCase()));
+        const brgyHit = vac.barangay === p.barangay;
+        if (!skillHit && !brgyHit) return false;
+      }
+      return true;
+    });
+    const jsStatusFg = { Active: '#5D6685', Referred: '#1B3A93', Placed: '#2A7D6F' };
+    const selJs = (d.jobseekers || []).filter((p) => p.id === s.selJs)[0] || null;
+
+    return {
+      today: today, officer: officer,
+      tabs: tabDefs.map(([key, label]) => ({
+        label: label,
+        bg: s.tab === key ? '#2A4FB8' : 'transparent',
+        fg: s.tab === key ? '#F1F1F7' : 'rgba(241,241,247,0.66)',
+        line: s.tab === key ? '#F1F1F7' : 'transparent',
+        go: () => this.setState({ tab: key, selEmp: null, selJs: null, showAudit: false })
+      })),
+      atOverview: s.tab === 'overview', atEmployers: s.tab === 'employers',
+      atJobseekers: s.tab === 'jobseekers', atPostings: s.tab === 'postings',
+      atReports: s.tab === 'reports', atSettings: s.tab === 'settings',
+      goEmployers: () => this.setState({ tab: 'employers' }),
+
+      stats: (d.stats || []).map((st) => ({
+        labelUpper: U(st.label),
+        value: String(st.key === 'pending' ? pendingNow : st.value),
+        note: st.key === 'pending' ? (lateNow === 0 ? 'All within the 3-day commitment' : lateNow + ' past the 3-day commitment') : st.note,
+        isPending: !!st.urgent,
+        bg: st.urgent ? '#1B3A93' : '#FBFBFE',
+        border: st.urgent ? '#1B3A93' : '#D5D3DE',
+        accent: st.urgent ? '#B03A2E' : '#D5D3DE',
+        labelFg: st.urgent ? 'rgba(241,241,247,0.66)' : '#5D6685',
+        valueFg: st.urgent ? '#F1F1F7' : '#1B3A93',
+        noteFg: st.urgent ? 'rgba(241,241,247,0.82)' : '#5D6685'
+      })),
+
+      periods: [['month', 'MONTH'], ['quarter', 'QUARTER'], ['year', 'YEAR']].map(([k, l]) => ({
+        label: l,
+        bg: s.period === k ? '#1B3A93' : 'transparent',
+        border: s.period === k ? '#1B3A93' : '#D5D3DE',
+        fg: s.period === k ? '#F1F1F7' : '#1B3A93',
+        go: () => this.setState({ period: k })
+      })),
+      lineJs: pts('jobseekers', 1), lineEmp: pts('employers', 20),
+      lineMax: String(maxJs), lineLabels: series.map((x) => x.label),
+      industry: (d.placementsByIndustry || []).map((x) => ({ label: x.label, value: String(x.value), pct: Math.round((x.value / maxInd) * 100) })),
+      split: (d.vacancySplit || []).map((x) => ({
+        label: x.label,
+        localPct: Math.round((x.local / maxSplit) * 100),
+        overseasPct: Math.round((x.overseas / maxSplit) * 100)
+      })),
+      barangay: (d.byBarangay || []).map((x) => ({ label: x.label, value: String(x.value), pct: Math.round((x.value / maxBrgy) * 100) })),
+      turnaround: (d.turnaround || []).map((x) => ({
+        label: x.label, days: x.days.toFixed(1),
+        pct: Math.round((x.days / maxDays) * 100),
+        bg: x.days > target ? '#B03A2E' : '#2A7D6F',
+        fg: x.days > target ? '#B03A2E' : '#5D6685'
+      })),
+      targetPct: Math.round((target / maxDays) * 100),
+      avgDays: avg.toFixed(1), avgColor: avg > target ? '#B03A2E' : '#1B3A93',
+
+      csvRegistrations: () => this.csv('peso-registrations-' + s.period + '.csv', ['Period', 'Jobseekers', 'Employers'], series.map((x) => [x.label, x.jobseekers, x.employers])),
+      csvIndustry: () => this.csv('peso-placements-by-industry.csv', ['Industry', 'Placements'], (d.placementsByIndustry || []).map((x) => [x.label, x.value])),
+      csvSplit: () => this.csv('peso-vacancies-local-overseas.csv', ['Month', 'Local', 'Overseas'], (d.vacancySplit || []).map((x) => [x.label, x.local, x.overseas])),
+      csvBarangay: () => this.csv('peso-jobseekers-by-barangay.csv', ['Barangay', 'Jobseekers'], (d.byBarangay || []).map((x) => [x.label, x.value])),
+      csvTurnaround: () => this.csv('peso-review-turnaround.csv', ['Month', 'Average days', 'Target days', 'Within target'], (d.turnaround || []).map((x) => [x.label, x.days.toFixed(1), target, x.days <= target ? 'Yes' : 'No'])),
+
+      fStatus: s.fStatus, fType: s.fType, fDate: s.fDate, fSearch: s.fSearch,
+      setFStatus: (e) => this.setState({ fStatus: e.target.value }),
+      setFType: (e) => this.setState({ fType: e.target.value }),
+      setFDate: (e) => this.setState({ fDate: e.target.value }),
+      setFSearch: (e) => this.setState({ fSearch: e.target.value }),
+      queueCount: queue.length + ' OF ' + queueAll.length + ' SHOWN',
+      queueEmpty: queue.length === 0,
+      queue: queue.map((e) => {
+        const st = liveStatus(e);
+        const late = st === 'pending' && e.days > 3;
+        const docsShort = e.docsDone < e.docsTotal;
+        return {
+          id: e.id, name: e.name, type: U(e.type), submitted: e.submitted,
+          waiting: st === 'pending' ? e.days + (e.days === 1 ? ' DAY' : ' DAYS') : '—',
+          waitFg: late ? '#B03A2E' : '#5D6685', waitWeight: late ? '500' : '400',
+          docs: e.docsDone + '/' + e.docsTotal,
+          docsFg: docsShort ? '#B03A2E' : '#2A7D6F',
+          status: U(st), statusFg: statusFg[st] || '#5D6685',
+          flag: late ? '#B03A2E' : 'transparent',
+          rowBg: late ? 'rgba(176,58,46,0.04)' : '#FBFBFE',
+          btnLabel: st === 'pending' ? 'REVIEW' : 'OPEN',
+          btnBg: st === 'pending' ? '#1B3A93' : 'transparent',
+          btnFg: st === 'pending' ? '#F1F1F7' : '#1B3A93',
+          btnBorder: st === 'pending' ? '#1B3A93' : '#D5D3DE',
+          open: () => this.setState({ selEmp: e.id, viewerDoc: null, showAudit: false, zoom: 100, rot: 0 })
+        };
+      }),
+      csvEmployers: () => this.csv('peso-employer-queue.csv', ['Reference', 'Company', 'Type', 'Submitted', 'Days waiting', 'Documents', 'Status'], queue.map((e) => [e.id, e.name, e.type, e.submitted, e.days, e.docsDone + '/' + e.docsTotal, liveStatus(e)])),
+
+      expiring: (d.expiring || []).map((x) => {
+        const soon = x.daysLeft <= 45;
+        const asked = !!s.requested[x.company + x.doc];
+        return {
+          company: x.company, doc: x.doc, expires: x.expires,
+          left: x.daysLeft + ' DAYS LEFT',
+          fg: soon ? '#B03A2E' : '#5D6685',
+          action: asked ? 'REQUEST SENT' : 'REQUEST UPDATE',
+          request: () => {
+            if (asked) return;
+            const r = Object.assign({}, s.requested); r[x.company + x.doc] = true;
+            this.setState({ requested: r });
+            this.flash('RE-VERIFICATION REQUESTED', x.company + ' has been asked for an updated ' + x.doc.toLowerCase() + '. Their account stays verified in the meantime.');
+          }
+        };
+      }),
+      csvExpiring: () => this.csv('peso-expiring-documents.csv', ['Company', 'Document', 'Expires', 'Days left'], (d.expiring || []).map((x) => [x.company, x.doc, x.expires, x.daysLeft])),
+
+      noEmpSelected: !emp, empSelected: !!emp,
+      empName: emp ? emp.name : '',
+      empMeta: emp ? emp.id + ' · ' + U(emp.type) + ' · SUBMITTED ' + emp.submitted + ' · ' + emp.contact + ' · TIN ' + emp.tin : '',
+      closeEmp: () => this.setState({ selEmp: null, showAudit: false }),
+      reviewCols: 'minmax(320px,1.15fr) minmax(340px,1fr)',
+      toggleAudit: () => this.setState({ showAudit: !s.showAudit }),
+      showAudit: s.showAudit,
+      auditBg: s.showAudit ? '#1B3A93' : 'transparent',
+      auditFg: s.showAudit ? '#F1F1F7' : '#1B3A93',
+      auditRows: auditRows, auditEmpty: auditRows.length === 0,
+      csvAudit: () => this.csv('peso-audit-' + (emp ? emp.id : 'log') + '.csv', ['Timestamp', 'Officer', 'Action', 'Basis'], auditRows.map((a) => [a.when, a.who, a.what, a.why])),
+
+      viewerName: viewerDoc.name,
+      zoomLabel: s.zoom + '%',
+      zoomIn: () => this.setState({ zoom: Math.min(220, s.zoom + 20) }),
+      zoomOut: () => this.setState({ zoom: Math.max(60, s.zoom - 20) }),
+      rotate: () => this.setState({ rot: (s.rot + 90) % 360 }),
+      rotateDeg: String(s.rot),
+      pageW: Math.round(360 * (s.zoom / 100)),
+      pageH: Math.round(460 * (s.zoom / 100)),
+
+      needsDmw: !!emp && (emp.type === 'overseas' || emp.type === 'both'),
+      dmwNo: dmwNo, dmwExp: dmwExp,
+      setDmwNo: (e) => { const m = Object.assign({}, s.dmw); m[emp.id] = Object.assign({}, m[emp.id], { no: e.target.value }); this.setState({ dmw: m }); },
+      setDmwExp: (e) => { const m = Object.assign({}, s.dmw); m[emp.id] = Object.assign({}, m[emp.id], { exp: e.target.value }); this.setState({ dmw: m }); },
+      dmwNote: dmwDays == null ? 'Record the licence number and expiry so the system can flag it before it lapses.'
+        : dmwDays < 0 ? 'This licence has already lapsed. It cannot be accepted.'
+        : dmwDays <= 45 ? 'Lapses in ' + dmwDays + ' days. The agency will appear on the re-verification list.'
+        : 'Valid for another ' + dmwDays + ' days.',
+      dmwNoteFg: dmwDays != null && dmwDays <= 45 ? '#B03A2E' : '#5D6685',
+
+      actionedLabel: actioned + ' OF ' + received.length + ' SUBMITTED ACTIONED'
+        + (notSent.length ? ' · ' + notSent.length + ' NOT SUBMITTED' : ''),
+      actionedFg: allActioned && missingRequired.length === 0 ? '#2A7D6F' : missingRequired.length ? '#B03A2E' : '#5D6685',
+      docs: empDocs.map((x) => {
+        const st = x.received ? (dec[x.id] || {}).state : null;
+        return {
+          name: x.name,
+          received: x.received, notReceived: !x.received,
+          meta: x.received
+            ? (x.required ? 'REQUIRED' : 'OPTIONAL') + ' · PDF · 1 PAGE'
+            : (x.required ? 'REQUIRED' : 'OPTIONAL') + ' · NOT SUBMITTED',
+          isAccepted: st === 'accept', isRejected: st === 'reject',
+          reason: (dec[x.id] || {}).reason || '',
+          border: st === 'accept' ? '#2A7D6F' : st === 'reject' ? '#B03A2E' : !x.received && x.required ? '#B03A2E' : '#D5D3DE',
+          accent: st === 'accept' ? '#2A7D6F' : st === 'reject' ? '#B03A2E' : !x.received && x.required ? '#B03A2E' : '#D5D3DE',
+          bg: !x.received ? '#F1F1F7' : s.viewerDoc === x.id ? '#F1F1F7' : '#FBFBFE',
+          missingNote: x.required
+            ? 'The employer has not sent this yet. It is listed in the decision notice as still needed.'
+            : 'Not sent. Optional — this does not block a decision.',
+          acceptBg: st === 'accept' ? '#2A7D6F' : 'transparent',
+          acceptFg: st === 'accept' ? '#F1F1F7' : '#1B3A93',
+          acceptBorder: st === 'accept' ? '#2A7D6F' : '#D5D3DE',
+          rejectBg: st === 'reject' ? '#B03A2E' : 'transparent',
+          rejectFg: st === 'reject' ? '#F1F1F7' : '#B03A2E',
+          rejectBorder: st === 'reject' ? '#B03A2E' : '#D5D3DE',
+          view: () => { if (x.received) this.setState({ viewerDoc: x.id, zoom: 100, rot: 0 }); },
+          accept: () => this.setDecision(emp.id, x.id, 'accept'),
+          reject: () => this.setDecision(emp.id, x.id, 'reject'),
+          setReason: (e) => this.setReason(emp.id, x.id, e.target.value)
+        };
+      }),
+
+      decisionHint: received.length === 0
+        ? 'NOTHING SUBMITTED YET · NO DECISION POSSIBLE'
+        : !allActioned
+          ? 'ACCEPT OR REJECT EVERY SUBMITTED DOCUMENT · ' + (received.length - actioned) + ' LEFT'
+          : missingRequired.length > 0
+            ? U(plural(missingRequired.length, 'required document')) + ' NOT SUBMITTED · CANNOT APPROVE'
+            : rejected.length === 0
+              ? 'ALL SUBMITTED DOCUMENTS ACCEPTED · READY TO APPROVE'
+              : rejectsWithReason.length < rejected.length
+                ? 'EVERY REJECTED DOCUMENT NEEDS A REASON · ' + (rejected.length - rejectsWithReason.length) + ' MISSING'
+                : U(plural(rejected.length, 'document')) + ' REJECTED WITH REASONS · READY TO SEND THE DECISION',
+      decisionHintFg: received.length === 0 || missingRequired.length > 0 ? '#B03A2E'
+        : !allActioned ? '#5D6685'
+        : rejected.length === 0 ? '#2A7D6F'
+        : rejectsWithReason.length < rejected.length ? '#B03A2E' : '#1B3A93',
+      approveBlocked: !canApprove,
+      approveBg: canApprove ? '#2A7D6F' : '#D5D3DE',
+      approveFg: canApprove ? '#F1F1F7' : '#5D6685',
+      approveCursor: canApprove ? 'pointer' : 'not-allowed',
+      denyBlocked: !canDeny,
+      denyFg: canDeny ? '#B03A2E' : '#5D6685',
+      denyBorder: canDeny ? '#B03A2E' : '#D5D3DE',
+      denyCursor: canDeny ? 'pointer' : 'not-allowed',
+      askApprove: () => { if (canApprove) this.setState({ dialog: 'approve' }); },
+      askDeny: () => { if (canDeny) this.setState({ dialog: 'deny' }); },
+      acceptedCount: accepted.length + ' OF ' + received.length + ' SUBMITTED',
+      dialogApprove: s.dialog === 'approve', dialogDeny: s.dialog === 'deny',
+      closeDialog: () => this.setState({ dialog: null }),
+      denyList: rejected.map((x) => ({ name: x.name, reason: (dec[x.id] || {}).reason || '' }))
+        .concat(missingRequired.map((x) => ({ name: x.name, reason: 'This document was not included in your submission. Attach it and submit again.' }))),
+      denyIntro: rejected.length && missingRequired.length
+        ? 'Some documents need replacing and some were not submitted at all. Everything else you sent has been accepted and stays on file.'
+        : missingRequired.length
+          ? 'Some required documents are missing from your submission. Everything you did send has been accepted and stays on file.'
+          : 'Some of your documents need replacing before PESO Bacoor can verify your company. Everything else you sent has been accepted and stays on file.',
+      denyFooter: rejected.length && missingRequired.length
+        ? 'Replace the files listed above and attach the missing ones from your dashboard. You do not start over, and there is no fee.'
+        : missingRequired.length
+          ? 'Attach the missing items from your dashboard. Nothing you already sent needs to be sent again, and there is no fee.'
+          : 'Replace only these items from your dashboard. You do not start over, and there is no fee.',
+      confirmApprove: () => this.record(emp, 'Approved employer', 'All ' + received.length + ' submitted documents accepted.', 'APPROVED', emp.name + ' is verified. The gold badge is issued and dated ' + today + '.', '#C8952E', 'approved'),
+      confirmDeny: () => {
+        const clauses = [];
+        if (rejected.length) clauses.push(plural(rejected.length, 'document') + ' rejected (' + rejected.map((x) => x.name).join('; ') + ')');
+        if (missingRequired.length) clauses.push(plural(missingRequired.length, 'required document') + ' not submitted (' + missingRequired.map((x) => x.name).join('; ') + ')');
+        this.record(emp, 'Denied employer', clauses.join('; ') + '.', 'DECISION SENT',
+          'Notice sent to ' + emp.name + '. ' + (rejected.length && missingRequired.length ? 'They can replace the rejected files and attach what is missing.' : missingRequired.length ? 'They only need to attach the missing documents.' : 'They can replace only the rejected items.'),
+          '#B03A2E', 'denied');
+      },
+
+      jsSearch: s.jsSearch, jsBarangay: s.jsBarangay, jsEduc: s.jsEduc, jsStatus: s.jsStatus, jsPct: s.jsPct,
+      setJsSearch: (e) => this.setState({ jsSearch: e.target.value }),
+      setJsBarangay: (e) => this.setState({ jsBarangay: e.target.value }),
+      setJsEduc: (e) => this.setState({ jsEduc: e.target.value }),
+      setJsStatus: (e) => this.setState({ jsStatus: e.target.value }),
+      setJsPct: (e) => this.setState({ jsPct: e.target.value }),
+      barangayNames: (d.byBarangay || []).map((x) => x.label),
+      vacancies: d.vacancyFilters || [],
+      matchVac: s.matchVac,
+      setMatchVac: (e) => this.setState({ matchVac: e.target.value }),
+      matchActive: !!vac,
+      matchNote: vac ? jsAll.length + ' MATCH ' + U(vac.id) : '',
+      jsCount: jsAll.length + ' OF ' + (d.jobseekers || []).length + ' SHOWN',
+      jsEmpty: jsAll.length === 0,
+      jobseekers: jsAll.map((p) => ({
+        id: p.id, name: p.name, barangay: p.barangay, age: String(p.age), educ: p.educ,
+        skills: p.skills.join(', '), pct: String(p.pct),
+        pctColor: p.pct >= 100 ? '#C8952E' : '#2A7D6F',
+        registered: p.registered, statusUpper: U(p.status), statusFg: jsStatusFg[p.status] || '#5D6685',
+        open: () => this.setState({ selJs: p.id })
+      })),
+      csvJobseekers: () => this.csv(vac ? 'peso-jobseekers-' + vac.id + '.csv' : 'peso-jobseekers.csv',
+        ['Reference', 'Name', 'Barangay', 'Age', 'Education', 'Skills', 'Profile %', 'Registered', 'Status'],
+        jsAll.map((p) => [p.id, p.name, p.barangay, p.age, p.educ, p.skills.join('; '), p.pct, p.registered, p.status])),
+
+      noJsSelected: !selJs, jsSelected: !!selJs,
+      closeJs: () => this.setState({ selJs: null }),
+      jsProfileName: selJs ? selJs.name : '',
+      jsProfileMeta: selJs ? selJs.id + ' · REGISTERED ' + selJs.registered + ' · PROFILE ' + selJs.pct + '%' : '',
+      jsProfileRows: selJs ? [
+        { k: 'BARANGAY', v: selJs.barangay }, { k: 'AGE', v: String(selJs.age) },
+        { k: 'EDUCATION', v: selJs.educ }, { k: 'SKILLS', v: selJs.skills.join(', ') },
+        { k: 'PROFILE COMPLETION', v: selJs.pct + '%' }, { k: 'PLACEMENT STATUS', v: selJs.status },
+        { k: 'REGISTERED', v: selJs.registered }, { k: 'CONTACT', v: 'On file · released to referred employers only' }
+      ] : [],
+      jsReferrals: selJs && selJs.status !== 'Active' ? [
+        { title: 'Warehouse Associate — Sample Employer Inc.', meta: 'REFERRED 14 AUG 2026 · ' + U(selJs.status) }
+      ] : [],
+      jsNoReferrals: !!selJs && selJs.status === 'Active',
+
+      postingCount: (d.postings || []).length + ' ACTIVE',
+      postings: (d.postings || []).map((p) => {
+        const down = s.downed[p.id];
+        const editing = s.takedown === p.id;
+        const reason = s.tdReason[p.id] || '';
+        const blocked = reason.trim().length < 3;
+        const soon = /2[0-9] AUG 2026/.test(p.expires);
+        return {
+          id: p.id, title: p.title, employer: p.employer, posted: p.posted, expires: p.expires,
+          scope: p.scope, views: String(p.views), applications: String(p.applications),
+          expFg: soon ? '#B03A2E' : '#5D6685',
+          titleFg: down ? '#5D6685' : '#1B3A93',
+          rowBg: down ? 'rgba(176,58,46,0.04)' : '#FBFBFE',
+          isDown: !!down, downReason: down || '',
+          takingDown: editing && !down,
+          btnLabel: down ? 'TAKEN DOWN' : editing ? 'CANCEL' : 'TAKE DOWN',
+          btnFg: down ? '#5D6685' : '#B03A2E',
+          btnBorder: down ? '#D5D3DE' : '#B03A2E',
+          toggle: () => { if (down) return; this.setState({ takedown: editing ? null : p.id }); },
+          reason: reason,
+          setReason: (e) => { const m = Object.assign({}, s.tdReason); m[p.id] = e.target.value; this.setState({ tdReason: m }); },
+          blocked: blocked,
+          confirmBg: blocked ? '#D5D3DE' : '#B03A2E',
+          confirmFg: blocked ? '#5D6685' : '#F1F1F7',
+          confirmCursor: blocked ? 'not-allowed' : 'pointer',
+          confirm: () => {
+            if (blocked) return;
+            const m = Object.assign({}, s.downed); m[p.id] = reason.trim();
+            this.setState({ downed: m, takedown: null });
+            this.flash('POSTING TAKEN DOWN', p.title + ' is no longer public. The reason is in the audit log.', '#B03A2E');
+          },
+          cancel: () => this.setState({ takedown: null })
+        };
+      }),
+      csvPostings: () => this.csv('peso-job-postings.csv', ['Reference', 'Position', 'Employer', 'Scope', 'Posted', 'Expires', 'Views', 'Applications'], (d.postings || []).map((p) => [p.id, p.title, p.employer, p.scope, p.posted, p.expires, p.views, p.applications])),
+
+      reports: (d.reports || []).map((r) => ({
+        name: r.name, period: r.period, rows: String(r.rows),
+        export: () => {
+          const map = {
+            'Registrations by barangay': [['Barangay', 'Jobseekers'], (d.byBarangay || []).map((x) => [x.label, x.value])],
+            'Placements by industry': [['Industry', 'Placements'], (d.placementsByIndustry || []).map((x) => [x.label, x.value])],
+            'Employer review turnaround': [['Month', 'Average days'], (d.turnaround || []).map((x) => [x.label, x.days.toFixed(1)])],
+            'Verified employers register': [['Reference', 'Company', 'Type', 'Status'], (d.employers || []).map((x) => [x.id, x.name, x.type, x.status])]
+          };
+          const hit = map[r.name];
+          if (hit) this.csv(r.name.toLowerCase().split(' ').join('-') + '.csv', hit[0], hit[1]);
+          else this.csv(r.name.toLowerCase().split(' ').join('-') + '.csv', ['Indicator', 'Period', 'Value'],
+            (d.stats || []).map((x) => [x.label, r.period, x.value]));
+        }
+      })),
+
+      staff: [
+        { name: 'R. Dela Cruz', role: 'PESO Manager · full access', last: 'ACTIVE NOW' },
+        { name: 'M. Villanueva', role: 'Employment officer · review and referral', last: 'LAST IN 17 AUG 2026' },
+        { name: 'J. Bautista', role: 'Encoder · registration only', last: 'LAST IN 15 AUG 2026' }
+      ],
+
+      toast: s.toast, toastTag: s.toastTag, toastAccent: s.toastAccent
+    };
+  }
+
+  setDecision(empId, docId, state) {
+    const all = Object.assign({}, this.state.decisions);
+    const mine = Object.assign({}, all[empId]);
+    mine[docId] = Object.assign({}, mine[docId], { state: state });
+    all[empId] = mine;
+    this.setState({ decisions: all });
+  }
+
+  setReason(empId, docId, reason) {
+    const all = Object.assign({}, this.state.decisions);
+    const mine = Object.assign({}, all[empId]);
+    mine[docId] = Object.assign({}, mine[docId], { reason: reason });
+    all[empId] = mine;
+    this.setState({ decisions: all });
+  }
+
+  record(emp, what, why, tag, msg, accent, status) {
+    if (!emp) return;
+    const dcd = Object.assign({}, this.state.decided);
+    if (status) dcd[emp.id] = status;
+    this.setState({ decided: dcd });
+    const extra = Object.assign({}, this.state.extraAudit);
+    extra[emp.id] = [{ when: '18 AUG 2026 ' + new Date().toTimeString().slice(0, 5), who: 'R. Dela Cruz', what: what, why: why }]
+      .concat(extra[emp.id] || []);
+    this.setState({ extraAudit: extra, dialog: null, showAudit: true });
+    this.flash(tag, msg, accent);
+  }
+}
+</script>
+</body>
+</html>

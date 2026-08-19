@@ -1,0 +1,64 @@
+{
+  "sample": true,
+  "company": { "name": "Sample Employer Inc.", "type": "local", "status": "approved", "approved": "06 AUG 2026", "officer": "R. Dela Cruz", "ref": "PESO-EMP-2026-00147" },
+  "steps": [
+    { "n": "01", "title": "Send your documents", "detail": "Register, pick your employer type, and attach the documents on the checklist. No fee at any stage." },
+    { "n": "02", "title": "A PESO officer checks them", "detail": "A real person reviews every file by hand, usually within 1 to 3 business days. If something is unclear we tell you which file and why." },
+    { "n": "03", "title": "You post vacancies", "detail": "Once verified, your listings carry the gold PESO mark and reach registered Bacoor jobseekers." }
+  ],
+  "checklists": {
+    "local": [
+      "SEC, DTI, or CDA registration",
+      "Mayor's / Business Permit (current year)",
+      "BIR Certificate of Registration (Form 2303)",
+      "DOLE Certificate of No Pending Case",
+      "Company profile",
+      "List of current vacancies with qualifications and salary range",
+      "Valid ID of the authorised representative",
+      "Authorisation letter or Secretary's Certificate"
+    ],
+    "overseas": [
+      "Valid DMW licence (number and expiry)",
+      "Job Order / Manpower Request accredited by DMW",
+      "Special Recruitment Authority, if recruiting outside your registered address",
+      "Principal / foreign employer accreditation documents"
+    ]
+  },
+  "postings": [
+    { "id": "V-0412", "title": "Warehouse Associate", "barangay": "Molino IV", "type": "Full-time", "salary": "₱13,000–15,000 / MONTH", "posted": "12 AUG 2026", "expires": "31 AUG 2026", "views": 1284, "applicants": 46, "new": 8 },
+    { "id": "V-0424", "title": "Delivery Rider", "barangay": "Zapote V", "type": "Full-time", "salary": "₱14,500 + ALLOWANCE / MONTH", "posted": "04 AUG 2026", "expires": "25 AUG 2026", "views": 962, "applicants": 51, "new": 3 },
+    { "id": "V-0439", "title": "Inventory Clerk", "barangay": "Molino IV", "type": "Full-time", "salary": "₱15,000–16,500 / MONTH", "posted": "16 AUG 2026", "expires": "16 SEP 2026", "views": 411, "applicants": 12, "new": 12 }
+  ],
+  "applicants": [
+    { "id": "NSRP-00842", "name": "Sample, Jomar L.", "vacancy": "V-0412", "barangay": "Talaba VII", "age": 31, "educ": "High school", "skills": ["Driving", "Warehouse"], "pct": 75, "applied": "05 AUG 2026", "status": "Interview" },
+    { "id": "NSRP-00846", "name": "Sample, Marlon T.", "vacancy": "V-0412", "barangay": "Molino IV", "age": 37, "educ": "College", "skills": ["Warehouse", "Driving", "Inventory"], "pct": 100, "applied": "11 AUG 2026", "status": "Shortlisted" },
+    { "id": "NSRP-00848", "name": "Sample, Nestor V.", "vacancy": "V-0412", "barangay": "Panapaan IV", "age": 52, "educ": "Elementary", "skills": ["Carpentry", "Masonry"], "pct": 25, "applied": "14 AUG 2026", "status": "New" },
+    { "id": "NSRP-00845", "name": "Sample, Cherry A.", "vacancy": "V-0412", "barangay": "Niog II", "age": 22, "educ": "Senior high school", "skills": ["Sewing", "Retail"], "pct": 50, "applied": "15 AUG 2026", "status": "New" },
+    { "id": "NSRP-00850", "name": "Sample, Arnel S.", "vacancy": "V-0424", "barangay": "Bayanan", "age": 34, "educ": "High school", "skills": ["Driving", "Delivery"], "pct": 75, "applied": "16 AUG 2026", "status": "New" },
+    { "id": "NSRP-00841", "name": "Sample, Ana R.", "vacancy": "V-0439", "barangay": "Molino IV", "age": 24, "educ": "College", "skills": ["Customer service", "Computer literacy", "Inventory"], "pct": 100, "applied": "17 AUG 2026", "status": "New" },
+    { "id": "NSRP-00847", "name": "Sample, Grace D.", "vacancy": "V-0439", "barangay": "Habay I", "age": 26, "educ": "College", "skills": ["Bookkeeping", "Computer literacy"], "pct": 38, "applied": "18 AUG 2026", "status": "New" }
+  ],
+  "statuses": ["New", "Shortlisted", "Interview", "Hired", "Not selected"],
+  "notices": {
+    "Shortlisted": "You have been shortlisted for {job} at {company}. They will contact you about next steps.",
+    "Interview": "{company} would like to interview you for {job}. PESO will text you the schedule.",
+    "Hired": "Congratulations. {company} has hired you for {job}. Tell PESO so your placement is recorded.",
+    "Not selected": "{company} has chosen another applicant for {job}. Your profile stays active for other openings.",
+    "New": "Your application for {job} at {company} is back to new. No decision has been made yet."
+  },
+  "renewals": [
+    { "doc": "Mayor's / Business Permit 2026", "expires": "31 DEC 2026", "daysLeft": 134, "note": "Renew every January. We remind you 45 days ahead." },
+    { "doc": "DOLE Certificate of No Pending Case", "expires": "22 SEP 2026", "daysLeft": 34, "note": "Attach the new certificate to stay verified. Your account is not suspended while you renew." }
+  ],
+  "profile": {
+    "name": "Sample Employer Inc.",
+    "business": "Transport and logistics",
+    "tin": "000-000-000-001",
+    "address": "Molino IV, Bacoor, Cavite",
+    "contact": "Maria Santos",
+    "position": "HR Manager",
+    "mobile": "0900 000 0000",
+    "email": "hr@sample-employer.com",
+    "employees": "100 to 199"
+  }
+}

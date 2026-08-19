@@ -1,0 +1,765 @@
+{
+  "sample": true,
+  "generated": "18 AUG 2026",
+  "stats": [
+    {
+      "key": "pending",
+      "label": "Pending employer reviews",
+      "value": 7,
+      "note": "2 past the 3-day commitment",
+      "urgent": true
+    },
+    {
+      "key": "jobseekers",
+      "label": "Registered jobseekers",
+      "value": 4318,
+      "note": "+186 this month"
+    },
+    {
+      "key": "employers",
+      "label": "Verified employers",
+      "value": 148,
+      "note": "+6 this month"
+    },
+    {
+      "key": "vacancies",
+      "label": "Active vacancies",
+      "value": 62,
+      "note": "41 local · 21 overseas"
+    },
+    {
+      "key": "placed",
+      "label": "Placed this month",
+      "value": 38,
+      "note": "312 year to date"
+    }
+  ],
+  "registrations": {
+    "month": [
+      {
+        "label": "SEP 25",
+        "jobseekers": 212,
+        "employers": 7
+      },
+      {
+        "label": "OCT 25",
+        "jobseekers": 198,
+        "employers": 6
+      },
+      {
+        "label": "NOV 25",
+        "jobseekers": 164,
+        "employers": 4
+      },
+      {
+        "label": "DEC 25",
+        "jobseekers": 140,
+        "employers": 3
+      },
+      {
+        "label": "JAN 26",
+        "jobseekers": 306,
+        "employers": 11
+      },
+      {
+        "label": "FEB 26",
+        "jobseekers": 268,
+        "employers": 9
+      },
+      {
+        "label": "MAR 26",
+        "jobseekers": 244,
+        "employers": 8
+      },
+      {
+        "label": "APR 26",
+        "jobseekers": 232,
+        "employers": 7
+      },
+      {
+        "label": "MAY 26",
+        "jobseekers": 258,
+        "employers": 9
+      },
+      {
+        "label": "JUN 26",
+        "jobseekers": 276,
+        "employers": 10
+      },
+      {
+        "label": "JUL 26",
+        "jobseekers": 290,
+        "employers": 12
+      },
+      {
+        "label": "AUG 26",
+        "jobseekers": 186,
+        "employers": 6
+      }
+    ],
+    "quarter": [
+      {
+        "label": "Q4 24",
+        "jobseekers": 498,
+        "employers": 14
+      },
+      {
+        "label": "Q1 25",
+        "jobseekers": 612,
+        "employers": 19
+      },
+      {
+        "label": "Q2 25",
+        "jobseekers": 588,
+        "employers": 21
+      },
+      {
+        "label": "Q3 25",
+        "jobseekers": 574,
+        "employers": 17
+      },
+      {
+        "label": "Q4 25",
+        "jobseekers": 502,
+        "employers": 17
+      },
+      {
+        "label": "Q1 26",
+        "jobseekers": 818,
+        "employers": 28
+      },
+      {
+        "label": "Q2 26",
+        "jobseekers": 766,
+        "employers": 26
+      },
+      {
+        "label": "Q3 26",
+        "jobseekers": 476,
+        "employers": 18
+      }
+    ],
+    "year": [
+      {
+        "label": "2022",
+        "jobseekers": 1840,
+        "employers": 52
+      },
+      {
+        "label": "2023",
+        "jobseekers": 2106,
+        "employers": 61
+      },
+      {
+        "label": "2024",
+        "jobseekers": 2284,
+        "employers": 68
+      },
+      {
+        "label": "2025",
+        "jobseekers": 2272,
+        "employers": 71
+      },
+      {
+        "label": "2026",
+        "jobseekers": 2060,
+        "employers": 72
+      }
+    ]
+  },
+  "placementsByIndustry": [
+    {
+      "label": "BPO and IT",
+      "value": 86
+    },
+    {
+      "label": "Manufacturing",
+      "value": 71
+    },
+    {
+      "label": "Retail and food service",
+      "value": 54
+    },
+    {
+      "label": "Transport and logistics",
+      "value": 38
+    },
+    {
+      "label": "Construction",
+      "value": 29
+    },
+    {
+      "label": "Health and care work",
+      "value": 22
+    },
+    {
+      "label": "Domestic work (overseas)",
+      "value": 12
+    }
+  ],
+  "vacancySplit": [
+    {
+      "label": "MAR 26",
+      "local": 28,
+      "overseas": 14
+    },
+    {
+      "label": "APR 26",
+      "local": 31,
+      "overseas": 16
+    },
+    {
+      "label": "MAY 26",
+      "local": 34,
+      "overseas": 15
+    },
+    {
+      "label": "JUN 26",
+      "local": 36,
+      "overseas": 18
+    },
+    {
+      "label": "JUL 26",
+      "local": 39,
+      "overseas": 20
+    },
+    {
+      "label": "AUG 26",
+      "local": 41,
+      "overseas": 21
+    }
+  ],
+  "byBarangay": [
+    {
+      "label": "Molino IV",
+      "value": 486
+    },
+    {
+      "label": "Talaba VII",
+      "value": 402
+    },
+    {
+      "label": "Zapote V",
+      "value": 361
+    },
+    {
+      "label": "Mambog III",
+      "value": 318
+    },
+    {
+      "label": "Niog II",
+      "value": 284
+    },
+    {
+      "label": "Habay I",
+      "value": 241
+    },
+    {
+      "label": "Panapaan IV",
+      "value": 208
+    },
+    {
+      "label": "Bayanan",
+      "value": 176
+    },
+    {
+      "label": "Real II",
+      "value": 152
+    },
+    {
+      "label": "Salinas III",
+      "value": 131
+    }
+  ],
+  "turnaround": [
+    {
+      "label": "JAN 26",
+      "days": 2.1
+    },
+    {
+      "label": "FEB 26",
+      "days": 2.4
+    },
+    {
+      "label": "MAR 26",
+      "days": 1.9
+    },
+    {
+      "label": "APR 26",
+      "days": 2.8
+    },
+    {
+      "label": "MAY 26",
+      "days": 3.4
+    },
+    {
+      "label": "JUN 26",
+      "days": 2.6
+    },
+    {
+      "label": "JUL 26",
+      "days": 2.2
+    },
+    {
+      "label": "AUG 26",
+      "days": 3.6
+    }
+  ],
+  "turnaroundTarget": 3,
+  "employers": [
+    {
+      "id": "E228",
+      "name": "Sample Logistics Corp.",
+      "type": "local",
+      "submitted": "12 AUG 2026",
+      "days": 4,
+      "docsDone": 3,
+      "docsTotal": 8,
+      "status": "pending",
+      "contact": "Maria Santos · HR Manager",
+      "tin": "000-000-000-001"
+    },
+    {
+      "id": "E229",
+      "name": "Sample Manpower Agency",
+      "type": "overseas",
+      "submitted": "13 AUG 2026",
+      "days": 4,
+      "docsDone": 12,
+      "docsTotal": 12,
+      "status": "pending",
+      "contact": "Jose Rivera · Recruitment Head",
+      "tin": "000-000-000-002",
+      "dmwNo": "POEA-000-LB-000000-R",
+      "dmwExpiry": "2026-11-30"
+    },
+    {
+      "id": "E230",
+      "name": "Sample Retail Group",
+      "type": "local",
+      "submitted": "14 AUG 2026",
+      "days": 3,
+      "docsDone": 7,
+      "docsTotal": 8,
+      "status": "pending",
+      "contact": "Ana Cruz · Store Operations",
+      "tin": "000-000-000-003"
+    },
+    {
+      "id": "E231",
+      "name": "Sample Food Manufacturing",
+      "type": "local",
+      "submitted": "17 AUG 2026",
+      "days": 1,
+      "docsDone": 8,
+      "docsTotal": 8,
+      "status": "pending",
+      "contact": "Rico Lim · Plant HR",
+      "tin": "000-000-000-004"
+    },
+    {
+      "id": "E232",
+      "name": "Sample Overseas Placement",
+      "type": "both",
+      "submitted": "17 AUG 2026",
+      "days": 1,
+      "docsDone": 10,
+      "docsTotal": 12,
+      "status": "pending",
+      "contact": "Delia Ramos · Compliance",
+      "tin": "000-000-000-005",
+      "dmwNo": "POEA-000-LB-000001-R",
+      "dmwExpiry": "2026-09-14"
+    },
+    {
+      "id": "E221",
+      "name": "Sample BPO Services Corp.",
+      "type": "local",
+      "submitted": "04 AUG 2026",
+      "days": 0,
+      "docsDone": 8,
+      "docsTotal": 8,
+      "status": "approved",
+      "contact": "Paolo Bautista · Talent",
+      "tin": "000-000-000-006",
+      "decidedOn": "06 AUG 2026",
+      "officer": "R. Dela Cruz"
+    },
+    {
+      "id": "E219",
+      "name": "Sample Construction Ventures",
+      "type": "local",
+      "submitted": "28 JUL 2026",
+      "days": 0,
+      "docsDone": 6,
+      "docsTotal": 8,
+      "status": "denied",
+      "contact": "Ben Torres · Admin",
+      "tin": "000-000-000-007",
+      "decidedOn": "31 JUL 2026",
+      "officer": "R. Dela Cruz"
+    },
+    {
+      "id": "E204",
+      "name": "Sample Agri Traders",
+      "type": "local",
+      "submitted": "02 MAR 2026",
+      "days": 0,
+      "docsDone": 8,
+      "docsTotal": 8,
+      "status": "expired",
+      "contact": "Luz Aquino · Owner",
+      "tin": "000-000-000-008",
+      "decidedOn": "04 MAR 2026",
+      "officer": "M. Villanueva"
+    }
+  ],
+  "expiring": [
+    {
+      "company": "Sample Overseas Placement",
+      "doc": "DMW licence",
+      "expires": "14 SEP 2026",
+      "daysLeft": 27,
+      "type": "overseas"
+    },
+    {
+      "company": "Sample Agri Traders",
+      "doc": "Mayor's permit 2026",
+      "expires": "31 AUG 2026",
+      "daysLeft": 13,
+      "type": "local"
+    },
+    {
+      "company": "Sample BPO Services Corp.",
+      "doc": "Mayor's permit 2026",
+      "expires": "31 DEC 2026",
+      "daysLeft": 135,
+      "type": "local"
+    },
+    {
+      "company": "Sample Manpower Agency",
+      "doc": "DMW licence",
+      "expires": "30 NOV 2026",
+      "daysLeft": 104,
+      "type": "overseas"
+    }
+  ],
+  "audit": {
+    "E221": [
+      {
+        "when": "06 AUG 2026 14:22",
+        "who": "R. Dela Cruz",
+        "what": "Approved employer",
+        "why": "All 8 documents accepted. Permit valid to 31 Dec 2026."
+      },
+      {
+        "when": "06 AUG 2026 14:19",
+        "who": "R. Dela Cruz",
+        "what": "Accepted document",
+        "why": "Mayor's / Business Permit"
+      },
+      {
+        "when": "05 AUG 2026 09:02",
+        "who": "M. Villanueva",
+        "what": "Opened for review",
+        "why": "Queue position 1"
+      },
+      {
+        "when": "04 AUG 2026 16:40",
+        "who": "System",
+        "what": "Documents received",
+        "why": "8 files, 6.2 MB"
+      }
+    ],
+    "E219": [
+      {
+        "when": "31 JUL 2026 11:05",
+        "who": "R. Dela Cruz",
+        "what": "Denied employer",
+        "why": "2 documents rejected: expired permit, vacancy list missing salary ranges."
+      },
+      {
+        "when": "31 JUL 2026 11:01",
+        "who": "R. Dela Cruz",
+        "what": "Rejected document",
+        "why": "Mayor's Permit — expired 31 Dec 2025"
+      },
+      {
+        "when": "30 JUL 2026 15:30",
+        "who": "R. Dela Cruz",
+        "what": "Opened for review",
+        "why": "Queue position 2"
+      },
+      {
+        "when": "28 JUL 2026 08:55",
+        "who": "System",
+        "what": "Documents received",
+        "why": "6 files, 4.1 MB"
+      }
+    ]
+  },
+  "jobseekers": [
+    {
+      "id": "NSRP-00841",
+      "name": "Sample, Ana R.",
+      "barangay": "Molino IV",
+      "age": 24,
+      "educ": "College",
+      "skills": [
+        "Customer service",
+        "Computer literacy"
+      ],
+      "pct": 100,
+      "registered": "02 AUG 2026",
+      "status": "Referred"
+    },
+    {
+      "id": "NSRP-00842",
+      "name": "Sample, Jomar L.",
+      "barangay": "Talaba VII",
+      "age": 31,
+      "educ": "High school",
+      "skills": [
+        "Driving",
+        "Warehouse"
+      ],
+      "pct": 75,
+      "registered": "03 AUG 2026",
+      "status": "Placed"
+    },
+    {
+      "id": "NSRP-00843",
+      "name": "Sample, Rina M.",
+      "barangay": "Zapote V",
+      "age": 28,
+      "educ": "Vocational / TESDA",
+      "skills": [
+        "Caregiving",
+        "Cooking"
+      ],
+      "pct": 88,
+      "registered": "05 AUG 2026",
+      "status": "Active"
+    },
+    {
+      "id": "NSRP-00844",
+      "name": "Sample, Eduardo P.",
+      "barangay": "Mambog III",
+      "age": 45,
+      "educ": "High school",
+      "skills": [
+        "Welding",
+        "Masonry"
+      ],
+      "pct": 63,
+      "registered": "07 AUG 2026",
+      "status": "Active"
+    },
+    {
+      "id": "NSRP-00845",
+      "name": "Sample, Cherry A.",
+      "barangay": "Niog II",
+      "age": 22,
+      "educ": "Senior high school",
+      "skills": [
+        "Sewing",
+        "Retail"
+      ],
+      "pct": 50,
+      "registered": "09 AUG 2026",
+      "status": "Active"
+    },
+    {
+      "id": "NSRP-00846",
+      "name": "Sample, Marlon T.",
+      "barangay": "Molino IV",
+      "age": 37,
+      "educ": "College",
+      "skills": [
+        "Warehouse",
+        "Driving",
+        "Inventory"
+      ],
+      "pct": 100,
+      "registered": "11 AUG 2026",
+      "status": "Referred"
+    },
+    {
+      "id": "NSRP-00847",
+      "name": "Sample, Grace D.",
+      "barangay": "Habay I",
+      "age": 26,
+      "educ": "College",
+      "skills": [
+        "Bookkeeping",
+        "Computer literacy"
+      ],
+      "pct": 38,
+      "registered": "12 AUG 2026",
+      "status": "Active"
+    },
+    {
+      "id": "NSRP-00848",
+      "name": "Sample, Nestor V.",
+      "barangay": "Panapaan IV",
+      "age": 52,
+      "educ": "Elementary",
+      "skills": [
+        "Carpentry",
+        "Masonry"
+      ],
+      "pct": 25,
+      "registered": "14 AUG 2026",
+      "status": "Active"
+    },
+    {
+      "id": "NSRP-00849",
+      "name": "Sample, Liza B.",
+      "barangay": "Talaba VII",
+      "age": 29,
+      "educ": "Vocational / TESDA",
+      "skills": [
+        "Caregiving"
+      ],
+      "pct": 88,
+      "registered": "15 AUG 2026",
+      "status": "Active"
+    },
+    {
+      "id": "NSRP-00850",
+      "name": "Sample, Arnel S.",
+      "barangay": "Bayanan",
+      "age": 34,
+      "educ": "High school",
+      "skills": [
+        "Driving",
+        "Delivery"
+      ],
+      "pct": 75,
+      "registered": "16 AUG 2026",
+      "status": "Active"
+    }
+  ],
+  "vacancyFilters": [
+    {
+      "id": "V-0412",
+      "label": "Warehouse Associate — Sample Employer Inc.",
+      "barangay": "Molino IV",
+      "skills": [
+        "Warehouse",
+        "Driving"
+      ]
+    },
+    {
+      "id": "V-0418",
+      "label": "Customer Service Rep — Sample BPO Services",
+      "barangay": "Bacoor",
+      "skills": [
+        "Customer service",
+        "Computer literacy"
+      ]
+    },
+    {
+      "id": "V-0421",
+      "label": "Caregiver (Taiwan) — Sample Manpower Agency",
+      "barangay": "Overseas",
+      "skills": [
+        "Caregiving"
+      ]
+    }
+  ],
+  "postings": [
+    {
+      "id": "V-0412",
+      "title": "Warehouse Associate",
+      "employer": "Sample Employer Inc.",
+      "posted": "12 AUG 2026",
+      "expires": "31 AUG 2026",
+      "views": 1284,
+      "applications": 46,
+      "scope": "LOCAL"
+    },
+    {
+      "id": "V-0418",
+      "title": "Customer Service Representative",
+      "employer": "Sample BPO Services Corp.",
+      "posted": "09 AUG 2026",
+      "expires": "09 SEP 2026",
+      "views": 2140,
+      "applications": 118,
+      "scope": "LOCAL"
+    },
+    {
+      "id": "V-0421",
+      "title": "Caregiver",
+      "employer": "Sample Manpower Agency",
+      "posted": "05 AUG 2026",
+      "expires": "05 SEP 2026",
+      "views": 1876,
+      "applications": 64,
+      "scope": "OVERSEAS"
+    },
+    {
+      "id": "V-0424",
+      "title": "Delivery Rider",
+      "employer": "Sample Retail Group",
+      "posted": "04 AUG 2026",
+      "expires": "25 AUG 2026",
+      "views": 962,
+      "applications": 51,
+      "scope": "LOCAL"
+    },
+    {
+      "id": "V-0427",
+      "title": "Production Operator",
+      "employer": "Sample Food Manufacturing",
+      "posted": "01 AUG 2026",
+      "expires": "01 SEP 2026",
+      "views": 754,
+      "applications": 39,
+      "scope": "LOCAL"
+    },
+    {
+      "id": "V-0430",
+      "title": "Welder (6G)",
+      "employer": "Sample Overseas Placement",
+      "posted": "28 JUL 2026",
+      "expires": "28 AUG 2026",
+      "views": 611,
+      "applications": 27,
+      "scope": "OVERSEAS"
+    }
+  ],
+  "reports": [
+    {
+      "name": "DOLE monthly PESO accomplishment report",
+      "period": "JUL 2026",
+      "rows": 14
+    },
+    {
+      "name": "Registrations by barangay",
+      "period": "JAN–AUG 2026",
+      "rows": 10
+    },
+    {
+      "name": "Placements by industry",
+      "period": "JAN–AUG 2026",
+      "rows": 7
+    },
+    {
+      "name": "Verified employers register",
+      "period": "AS OF 18 AUG 2026",
+      "rows": 148
+    },
+    {
+      "name": "Employer review turnaround",
+      "period": "JAN–AUG 2026",
+      "rows": 8
+    },
+    {
+      "name": "Special recruitment activities held",
+      "period": "JAN–AUG 2026",
+      "rows": 6
+    }
+  ]
+}

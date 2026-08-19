@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDE7D8; }
+  body { font-family: 'Source Sans 3', system-ui, sans-serif; color: #123A6B; -webkit-font-smoothing: antialiased; text-wrap: pretty; }
+  * { box-sizing: border-box; }
+  a { color: #1B4E8F; text-underline-offset: 3px; }
+  a:hover { color: #123A6B; }
+  button, input, select, textarea { font-family: inherit; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid #1B4E8F; outline-offset: 2px; border-radius: 2px;
+  }
+
+  /* Employer hero — 10s loop for the hands and assembly; the page turns on its own 20s clock.
+     Base styles ARE the resolved frame (document face-on, seal visible) so reduced motion lands there. */
+  @keyframes empSmokeA {
+    0% { transform: translate3d(-6%, 4%, 0) scale(1.15); }
+    50% { transform: translate3d(7%, -5%, 0) scale(1.3); }
+    100% { transform: translate3d(-6%, 4%, 0) scale(1.15); }
+  }
+  @keyframes empSmokeB {
+    0% { transform: translate3d(8%, -3%, 0) scale(1.25); }
+    50% { transform: translate3d(-7%, 6%, 0) scale(1.1); }
+    100% { transform: translate3d(8%, -3%, 0) scale(1.25); }
+  }
+  @keyframes empHands {
+    0% { opacity: 0; transform: translate3d(0, 52px, 0) scale3d(0.84, 0.74, 1); }
+    18% { opacity: 0.5; transform: translate3d(0, 22px, 0) scale3d(0.92, 0.82, 1); }
+    25% { opacity: 0.82; transform: translate3d(0, 8px, 0) scale3d(0.96, 0.86, 1); }
+    40%, 58% { opacity: 0.82; transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
+    76% { opacity: 0.16; transform: translate3d(0, 32px, 0) scale3d(0.92, 0.9, 1); }
+    88%, 100% { opacity: 0; transform: translate3d(0, 52px, 0) scale3d(0.84, 0.74, 1); }
+  }
+  @keyframes empSheet {
+    0%, 38% { opacity: 0; transform: translateY(16px) scale(0.9); }
+    48%, 100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes empLines {
+    0%, 46% { opacity: 0; }
+    56%, 100% { opacity: 1; }
+  }
+  @keyframes empSeal {
+    0%, 54% { opacity: 0; transform: scale(0.4); }
+    62% { opacity: 1; transform: scale(1.12); }
+    66%, 100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes empSpin {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+  @keyframes empLift {
+    0%, 40% { transform: translateY(10px); }
+    60% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+  }
+  [data-hero-paused] * { animation-play-state: paused !important; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-anim], [data-anim] * { animation: none !important; transition: none !important; }
+  }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#EDE7D8;display:flex;justify-content:center">
+<div style="width:100%;max-width:1180px;background:#FAF7EF;min-height:100vh;border-left:1px solid #DED8C8;border-right:1px solid #DED8C8">
+
+  <div style="position:sticky;top:0;z-index:20;background:#FAF7EF;border-bottom:1px solid #DED8C8;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 clamp(16px,4vw,48px);height:56px">
+    <div style="display:flex;align-items:baseline;gap:10px;min-width:0">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;white-space:nowrap">PESO BACOOR</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80;white-space:nowrap">EMPLOYER</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.07em;color:#5A6B80;white-space:nowrap">{{ companyRef }}</span>
+      <span style="color:#DED8C8">|</span>
+      <button type="button" style="min-height:44px;min-width:44px;background:none;border:none;padding:0 6px;cursor:pointer;color:#123A6B;font-family:'IBM Plex Mono',monospace;font-size:12px;border-bottom:1.5px solid #123A6B">EN</button>
+      <button type="button" style="min-height:44px;min-width:44px;background:none;border:none;padding:0 6px;cursor:pointer;color:#5A6B80;font-family:'IBM Plex Mono',monospace;font-size:12px">TL</button>
+    </div>
+  </div>
+
+  <main>
+
+  <!-- ════════ HERO ════════ -->
+  <section style="position:relative;background:#070E1C;overflow:hidden;contain:paint;min-height:clamp(430px,52vw,560px)">
+    <div data-anim="1" data-hero-paused="{{ pausedAttr }}" style="position:absolute;inset:0;pointer-events:none">
+      <div style="position:absolute;inset:0;background:radial-gradient(120% 96% at 22% 6%,#1B2A4A 0%,#101A31 38%,#070E1C 74%)"></div>
+      <div style="position:absolute;inset:-14%;opacity:0.16;will-change:transform;animation:empSmokeA 26s ease-in-out infinite">
+        <div style="position:absolute;inset:0;background:radial-gradient(38% 46% at 30% 40%,#8FA6C8 0%,transparent 70%),radial-gradient(30% 38% at 62% 66%,#6F87AC 0%,transparent 72%);filter:blur(26px)"></div>
+      </div>
+      <div style="position:absolute;inset:-14%;opacity:0.1;will-change:transform;animation:empSmokeB 34s ease-in-out infinite">
+        <div style="position:absolute;inset:0;background:radial-gradient(34% 40% at 68% 28%,#A8BBD8 0%,transparent 72%),radial-gradient(26% 34% at 38% 74%,#7C93B8 0%,transparent 74%);filter:blur(30px)"></div>
+      </div>
+
+      <div style="position:absolute;left:50%;bottom:0;width:min(680px,104%);height:78%;margin-left:calc(min(680px,104%) / -2);opacity:0;will-change:transform,opacity;animation:empHands 10s ease-in-out infinite">
+        <div style="position:absolute;inset:0;filter:blur(5px)">
+          <svg viewBox="0 0 680 380" preserveAspectRatio="xMidYMax meet" style="width:100%;height:100%;display:block" aria-hidden="true">
+            <defs>
+              <linearGradient id="empSkin" x1="0" y1="0" x2="0.4" y2="1">
+                <stop offset="0" stop-color="#4A5F86"></stop>
+                <stop offset="1" stop-color="#1A2540"></stop>
+              </linearGradient>
+            </defs>
+            <g fill="url(#empSkin)">
+              <path d="M150 380 v-96 c0 -44 28 -74 74 -78 l64 -6 c26 -2 42 12 42 32 0 18 -14 30 -34 32 l-52 6 66 -4 c24 -2 38 10 38 28 0 18 -14 28 -36 30 l-64 6 60 -2 c22 -1 34 10 34 26 0 17 -13 26 -34 28 l-60 6 h-88 z"></path>
+              <path d="M530 380 v-96 c0 -44 -28 -74 -74 -78 l-64 -6 c-26 -2 -42 12 -42 32 0 18 14 30 34 32 l52 6 -66 -4 c-24 -2 -38 10 -38 28 0 18 14 28 36 30 l64 6 -60 -2 c-22 -1 -34 10 -34 26 0 17 13 26 34 28 l60 6 h88 z"></path>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div style="position:absolute;left:50%;top:clamp(40px,7vw,78px);width:clamp(150px,17vw,206px);margin-left:calc(clamp(150px,17vw,206px) / -2);perspective:1400px;will-change:transform;animation:empLift 10s ease-in-out infinite">
+        <div style="position:relative;width:100%;aspect-ratio:17/22;transform-style:preserve-3d;will-change:transform;animation:empSpin 20s linear infinite">
+          <span style="position:absolute;inset:0;background:#B7BFCF;transform:translateZ(-2.4px)"></span>
+          <span style="position:absolute;inset:0;background:#C3CAD8;transform:translateZ(-1.6px)"></span>
+          <span style="position:absolute;inset:0;background:#CFD5E0;transform:translateZ(-0.8px)"></span>
+          <span style="position:absolute;inset:0;background:#D9DEE7;transform:translateZ(0px)"></span>
+          <span style="position:absolute;inset:0;background:#E6EAF0;transform:translateZ(0.8px)"></span>
+          <span style="position:absolute;inset:0;background:#F0F2F6;transform:translateZ(1.6px)"></span>
+
+          <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:translateZ(2.6px);background:linear-gradient(148deg,#FFFDF7 0%,#F2F0EA 62%,#DAD9D6 100%);box-shadow:0 14px 40px rgba(8,26,58,0.6);padding:13% 12%;will-change:transform,opacity;animation:empSheet 10s ease-in-out infinite">
+            <div style="animation:empLines 10s ease-in-out infinite">
+              <div style="height:5px;width:64%;background:#123A6B;border-radius:1px"></div>
+              <div style="margin-top:9%;display:flex;flex-direction:column;gap:5px">
+                <span style="display:block;height:2.5px;width:100%;background:#B9C2D2;border-radius:1px"></span>
+                <span style="display:block;height:2.5px;width:88%;background:#B9C2D2;border-radius:1px"></span>
+                <span style="display:block;height:2.5px;width:96%;background:#B9C2D2;border-radius:1px"></span>
+                <span style="display:block;height:2.5px;width:72%;background:#B9C2D2;border-radius:1px"></span>
+                <span style="display:block;height:2.5px;width:92%;background:#B9C2D2;border-radius:1px"></span>
+                <span style="display:block;height:2.5px;width:60%;background:#B9C2D2;border-radius:1px"></span>
+              </div>
+            </div>
+            <div style="position:absolute;right:12%;bottom:11%;width:38%;aspect-ratio:1;border-radius:50%;border:2px solid #C8952E;display:flex;align-items:center;justify-content:center;animation:empSeal 10s ease-out infinite">
+              <span style="width:74%;height:74%;border-radius:50%;border:1px solid #C8952E;opacity:0.55"></span>
+            </div>
+          </div>
+
+          <div style="position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:translateZ(-3.2px) rotateY(180deg);background:linear-gradient(148deg,#E8E6E0 0%,#D6D4CE 70%,#C2C1BE 100%)"></div>
+        </div>
+      </div>
+
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,14,28,0.95) 0%,rgba(7,14,28,0.84) 40%,rgba(7,14,28,0.42) 74%,rgba(7,14,28,0.28) 100%)"></div>
+    </div>
+
+    <div style="position:relative;z-index:2;padding:clamp(34px,4.5vw,72px) clamp(16px,4vw,48px) clamp(28px,3.5vw,52px)">
+      <div style="max-width:560px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;color:rgba(250,247,239,0.58)">FOR EMPLOYERS AND DMW-LICENSED AGENCIES</div>
+        <h1 style="margin:18px 0 0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:clamp(29px,3.8vw,46px);line-height:1.05;letter-spacing:-0.015em;color:#FAF7EF;max-width:19ch">Hire from Bacoor, with your credentials checked.</h1>
+        <p style="margin:16px 0 0;font-size:clamp(16px,1.4vw,19px);line-height:1.5;color:rgba(250,247,239,0.84);max-width:36ch">Send your documents once. A PESO officer reviews them within 1 to 3 business days, and your listings carry the gold mark that tells jobseekers you are real.</p>
+        <div style="margin-top:26px;display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" style="display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:52px;padding:0 18px;background:#F5C63C;color:#123A6B;border:none;border-radius:3px;font-size:17px;font-weight:600;cursor:pointer" style-hover="background:#E0B22C">
+            <span>Start verification</span><span>&#8594;</span>
+          </button>
+          <button type="button" onClick="{{ scrollChecklist }}" style="min-height:52px;padding:0 18px;background:transparent;color:#FAF7EF;border:1px solid rgba(250,247,239,0.42);border-radius:3px;font-size:17px;font-weight:600;cursor:pointer" style-hover="background:rgba(250,247,239,0.1)">See what you&#8217;ll need</button>
+        </div>
+        <button type="button" onClick="{{ togglePause }}" style="margin-top:20px;min-height:44px;padding:0 14px;background:rgba(250,247,239,0.1);color:rgba(250,247,239,0.86);border:1px solid rgba(250,247,239,0.28);border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;cursor:pointer" style-hover="background:rgba(250,247,239,0.18)">{{ pauseLabel }}</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ STATUS ════════ -->
+  <section style="padding:clamp(22px,3vw,38px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <sc-if value="{{ isApproved }}" hint-placeholder-val="{{ true }}">
+      <div style="background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;padding:18px">
+        <div style="display:flex;align-items:center;gap:8px" data-anim="1">
+          <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid #C8952E;flex:none"></span>
+          <span style="flex:1;height:1px;background:repeating-linear-gradient(90deg,#C8952E 0 4px,transparent 4px 7px)"></span>
+        </div>
+        <div style="margin-top:9px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.09em;color:#8A6414;font-weight:500">VERIFIED EMPLOYER &middot; APPROVED {{ approvedOn }} &middot; {{ officer }}</div>
+        <div style="margin-top:14px;display:flex;gap:20px;align-items:baseline;justify-content:space-between;flex-wrap:wrap">
+          <div style="min-width:0">
+            <div style="font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:clamp(21px,2.2vw,27px);letter-spacing:-0.01em;line-height:1.2">{{ companyName }}</div>
+            <div style="margin-top:6px;font-size:16px;line-height:1.5;color:#5A6B80;max-width:44ch">Your vacancies carry the gold PESO mark. Renew your permit each year to keep it.</div>
+          </div>
+          <button type="button" onClick="{{ goPost }}" style="flex:none;display:flex;align-items:center;gap:14px;min-height:50px;padding:0 18px;background:#1B4E8F;color:#FAF7EF;border:none;border-radius:3px;font-size:17px;font-weight:600;cursor:pointer" style-hover="background:#163F74">
+            <span>Post a vacancy</span><span>&#8594;</span>
+          </button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPending }}">
+      <div style="background:#FFFDF7;border:1px solid #DED8C8;border-left:3px solid #1B4E8F;border-radius:3px;padding:18px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.11em;color:#5A6B80">VERIFICATION STATUS &middot; {{ companyRef }}</div>
+        <div style="margin-top:12px;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:clamp(20px,2.1vw,26px);letter-spacing:-0.01em">Your documents are with a reviewer.</div>
+        <p style="margin:10px 0 0;font-size:16px;line-height:1.5;max-width:44ch">A PESO officer is checking them by hand. You cannot post a vacancy until the review is finished. Expect a decision by {{ decisionBy }}.</p>
+        <div style="margin-top:18px;display:flex;flex-direction:column;gap:0">
+          <sc-for list="{{ tracker }}" as="st" hint-placeholder-count="3">
+            <div style="display:flex;gap:14px;align-items:flex-start">
+              <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:16px">
+                <span style="width:12px;height:12px;border-radius:50%;background:{{ st.dotBg }};border:1.5px solid {{ st.dotBorder }};flex:none"></span>
+                <sc-if value="{{ st.hasLine }}"><span style="width:1px;flex:1;min-height:34px;background:{{ st.line }}"></span></sc-if>
+              </div>
+              <div style="padding-bottom:16px;min-width:0">
+                <div style="font-size:16px;font-weight:600;color:{{ st.fg }};line-height:1.3">{{ st.name }}</div>
+                <div style="margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.07em;color:#5A6B80">{{ st.detail }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5A6B80">SAMPLE ACCOUNT &middot; SWITCH THE STATE TO PREVIEW BOTH</div>
+    <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+      <button type="button" onClick="{{ simApproved }}" style="min-height:44px;padding:0 13px;background:{{ apprBg }};color:{{ apprFg }};border:1px solid #DED8C8;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">VERIFIED</button>
+      <button type="button" onClick="{{ simPending }}" style="min-height:44px;padding:0 13px;background:{{ pendBg }};color:{{ pendFg }};border:1px solid #DED8C8;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">UNDER REVIEW</button>
+    </div>
+  </section>
+
+  <!-- ════════ HOW VERIFICATION WORKS ════════ -->
+  <section style="padding:clamp(26px,3.5vw,48px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <h2 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:600;font-size:clamp(21px,2.2vw,28px);letter-spacing:-0.01em">How verification works</h2>
+    <p style="margin:10px 0 0;font-size:16px;line-height:1.55;color:#5A6B80;max-width:52ch">One to three business days, start to finish. Verification is free, and PESO never charges you or your applicants a fee.</p>
+
+    <div style="margin-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px">
+      <sc-for list="{{ steps }}" as="sp" hint-placeholder-count="3">
+        <div style="background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;padding:16px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.11em;color:#5A6B80">{{ sp.n }}</div>
+          <div style="margin-top:10px;font-size:18px;font-weight:600;line-height:1.3">{{ sp.title }}</div>
+          <div style="margin-top:7px;font-size:15px;line-height:1.5;color:#5A6B80">{{ sp.detail }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div id="checklist" style="margin-top:26px;background:#FDF3D4;border:1px solid #E8D9A6;border-radius:3px;padding:18px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.11em;color:#5A6B80">WHAT YOU&#8217;LL NEED</div>
+          <div style="margin-top:6px;font-size:16px;line-height:1.5;color:#123A6B;max-width:46ch">Gather these before you register. Screenshot this list if it helps.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ typeTabs }}" as="t" hint-placeholder-count="3">
+            <button type="button" onClick="{{ t.go }}" style="min-height:44px;padding:0 13px;background:{{ t.bg }};color:{{ t.fg }};border:1px solid {{ t.border }};border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">{{ t.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-for list="{{ checklistGroups }}" as="grp" hint-placeholder-count="1">
+        <div style="margin-top:16px">
+          <sc-if value="{{ grp.showLabel }}">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#5A6B80">{{ grp.label }}</div>
+          </sc-if>
+          <div style="margin-top:8px;border-top:1px solid #E8D9A6">
+            <sc-for list="{{ grp.items }}" as="it" hint-placeholder-count="8">
+              <div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #E8D9A6">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5A6B80;flex:none;width:22px">{{ it.n }}</span>
+                <span style="font-size:15px;line-height:1.4">{{ it.name }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5A6B80">PDF, JPG OR PNG &middot; UP TO 5 MB PER FILE</div>
+    </div>
+  </section>
+
+  <!-- ════════ RENEWALS ════════ -->
+  <section style="padding:clamp(24px,3vw,40px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <h2 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:600;font-size:clamp(20px,2vw,25px);letter-spacing:-0.01em">Renewal reminders</h2>
+    <p style="margin:8px 0 0;font-size:16px;line-height:1.5;color:#5A6B80;max-width:50ch">Permits and licences lapse annually. Sending the new file keeps your account verified &mdash; nothing is suspended while you renew.</p>
+    <div style="margin-top:14px;border-top:1px solid #DED8C8">
+      <sc-for list="{{ renewals }}" as="r" hint-placeholder-count="2">
+        <div style="display:flex;gap:14px;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #DED8C8;flex-wrap:wrap">
+          <div style="min-width:200px;flex:1">
+            <div style="font-size:16px;font-weight:600;line-height:1.3">{{ r.doc }}</div>
+            <div style="margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;color:{{ r.fg }}">EXPIRES {{ r.expires }} &middot; {{ r.left }}</div>
+            <div style="margin-top:4px;font-size:14px;color:#5A6B80;line-height:1.45">{{ r.note }}</div>
+          </div>
+          <button type="button" onClick="{{ r.upload }}" style="flex:none;min-height:44px;padding:0 14px;background:transparent;color:{{ r.btnFg }};border:1px solid {{ r.btnBorder }};border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;cursor:pointer">{{ r.action }}</button>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ════════ POST A VACANCY ════════ -->
+  <section style="padding:clamp(24px,3vw,40px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <h2 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:600;font-size:clamp(21px,2.2vw,28px);letter-spacing:-0.01em">Post a vacancy</h2>
+      <sc-if value="{{ isPending }}">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#B03A2E;border:1px solid #B03A2E;padding:4px 7px">LOCKED UNTIL VERIFIED</span>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ posted }}">
+      <div style="margin-top:16px;background:#FFFDF7;border:1px solid #DED8C8;border-left:3px solid #1B4E8F;border-radius:3px;padding:16px" data-anim="1">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#1B4E8F;font-weight:500">POSTED &middot; NOW LIVE</div>
+        <div style="margin-top:7px;font-size:16px;line-height:1.5">{{ postedNote }}</div>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:16px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;padding:16px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px">
+        <label style="display:block;grid-column:1/-1"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">POSITION TITLE</span>
+          <input type="text" value="{{ pTitle }}" onChange="{{ setPTitle }}" placeholder="e.g. Warehouse Associate" style="margin-top:6px;width:100%;height:48px;padding:0 12px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none" /></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">NUMBER OF OPENINGS</span>
+          <input type="number" value="{{ pCount }}" onChange="{{ setPCount }}" placeholder="1" style="margin-top:6px;width:100%;height:48px;padding:0 12px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:16px;color:#123A6B;outline:none" /></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">WORK LOCATION</span>
+          <select style="margin-top:6px;width:100%;height:48px;padding:0 10px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none"><option>Molino IV</option><option>Talaba VII</option><option>Zapote V</option><option>Mambog III</option><option>Niog II</option><option>Overseas</option></select></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">EMPLOYMENT TYPE</span>
+          <select style="margin-top:6px;width:100%;height:48px;padding:0 10px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none"><option>Full-time</option><option>Part-time</option><option>Contractual</option><option>Project-based</option></select></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">SALARY RANGE</span>
+          <input type="text" value="{{ pSalary }}" onChange="{{ setPSalary }}" placeholder="e.g. 13,000 to 15,000 per month" style="margin-top:6px;width:100%;height:48px;padding:0 12px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none" />
+          <span style="display:block;margin-top:6px;font-size:14px;color:#5A6B80;line-height:1.45">A salary range is required. Listings without one are not published.</span></label>
+        <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">APPLICATIONS CLOSE</span>
+          <input type="date" style="margin-top:6px;width:100%;height:48px;padding:0 12px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:15px;color:#123A6B;outline:none" /></label>
+        <label style="display:block;grid-column:1/-1"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">WHAT THE WORK INVOLVES</span>
+          <textarea rows="3" placeholder="Plain language. What the person will actually do, and the shift." style="margin-top:6px;width:100%;padding:11px 12px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none;resize:vertical;line-height:1.5"></textarea></label>
+        <label style="display:block;grid-column:1/-1"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">QUALIFICATIONS</span>
+          <textarea rows="2" placeholder="Only what is genuinely required." style="margin-top:6px;width:100%;padding:11px 12px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none;resize:vertical;line-height:1.5"></textarea></label>
+      </div>
+
+      <div style="margin-top:18px;padding-top:16px;border-top:1px solid #DED8C8">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:{{ postHintFg }}">{{ postHint }}</div>
+        <button type="button" onClick="{{ submitPost }}" disabled="{{ postBlocked }}" style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;width:100%;max-width:420px;height:54px;padding:0 18px;background:{{ postBg }};color:{{ postFg }};border:none;border-radius:3px;font-size:17px;font-weight:600;cursor:{{ postCursor }}">
+          <span>Publish vacancy</span><span>&#8594;</span>
+        </button>
+        <p style="margin:12px 0 0;font-size:14px;color:#5A6B80;line-height:1.5">By publishing you confirm no fee of any kind will be collected from applicants.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;overflow-x:auto">
+      <div style="min-width:760px">
+        <div style="display:grid;grid-template-columns:2fr 1.2fr 1fr 1fr 0.8fr 0.9fr;gap:12px;padding:10px 14px;border-bottom:1px solid #DED8C8;background:#FAF7EF;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5A6B80">
+          <span>POSITION</span><span>SALARY</span><span>POSTED</span><span>CLOSES</span><span>VIEWS</span><span>APPLICANTS</span>
+        </div>
+        <sc-for list="{{ postings }}" as="p" hint-placeholder-count="3">
+          <button type="button" onClick="{{ p.open }}" style="display:grid;width:100%;text-align:left;grid-template-columns:2fr 1.2fr 1fr 1fr 0.8fr 0.9fr;gap:12px;padding:12px 14px;border:none;border-bottom:1px solid #DED8C8;background:{{ p.bg }};align-items:center;cursor:pointer;font-family:'Source Sans 3',sans-serif">
+            <span style="font-size:15px;font-weight:600;line-height:1.3">{{ p.title }}<span style="display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:400;color:#5A6B80">{{ p.meta }}</span></span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5A6B80">{{ p.salary }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5A6B80">{{ p.posted }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ p.expFg }}">{{ p.expires }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5A6B80">{{ p.views }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500">{{ p.applicants }}<sc-if value="{{ p.hasNew }}"><span style="display:block;margin-top:2px;font-size:10px;letter-spacing:0.06em;color:#1B4E8F">{{ p.newLabel }}</span></sc-if></span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ APPLICANTS ════════ -->
+  <section style="padding:clamp(24px,3vw,40px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <h2 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:600;font-size:clamp(21px,2.2vw,28px);letter-spacing:-0.01em">Applicants</h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5A6B80">{{ applicantCount }}</span>
+    </div>
+
+    <sc-if value="{{ notice }}">
+      <div style="margin-top:14px;background:#FFFDF7;border:1px solid #DED8C8;border-left:3px solid #1B4E8F;border-radius:3px;padding:14px 16px" data-anim="1">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#1B4E8F;font-weight:500">SENT TO THE APPLICANT BY SMS AND EMAIL</div>
+        <div style="margin-top:7px;font-size:15px;line-height:1.5;max-width:60ch">&#8220;{{ notice }}&#8221;</div>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px">
+      <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">VACANCY</span>
+        <select value="{{ fVac }}" onChange="{{ setFVac }}" style="margin-top:5px;width:100%;height:46px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none">
+          <option value="all">All vacancies</option>
+          <sc-for list="{{ vacancyOptions }}" as="v" hint-placeholder-count="3"><option value="{{ v.id }}">{{ v.title }}</option></sc-for>
+        </select></label>
+      <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">SKILL</span>
+        <select value="{{ fSkill }}" onChange="{{ setFSkill }}" style="margin-top:5px;width:100%;height:46px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none">
+          <option value="all">Any skill</option>
+          <sc-for list="{{ skillOptions }}" as="sk" hint-placeholder-count="5"><option>{{ sk }}</option></sc-for>
+        </select></label>
+      <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">MINIMUM EDUCATION</span>
+        <select value="{{ fEduc }}" onChange="{{ setFEduc }}" style="margin-top:5px;width:100%;height:46px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none">
+          <option value="all">Any level</option><option>High school</option><option>Senior high school</option><option>Vocational / TESDA</option><option>College</option>
+        </select></label>
+      <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">STATUS</span>
+        <select value="{{ fStatus }}" onChange="{{ setFStatus }}" style="margin-top:5px;width:100%;height:46px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none">
+          <option value="all">All</option>
+          <sc-for list="{{ statusOptions }}" as="st" hint-placeholder-count="5"><option>{{ st }}</option></sc-for>
+        </select></label>
+    </div>
+
+    <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+      <sc-for list="{{ applicants }}" as="a" hint-placeholder-count="7">
+        <div style="background:#FFFDF7;border:1px solid #DED8C8;border-left:3px solid {{ a.accent }};border-radius:3px;padding:14px 16px">
+          <div style="display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap">
+            <div style="min-width:200px;flex:1">
+              <div style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap">
+                <span style="font-size:17px;font-weight:600;line-height:1.3">{{ a.name }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:{{ a.accent }}">{{ a.statusUpper }}</span>
+              </div>
+              <div style="margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;color:#5A6B80;line-height:1.6">{{ a.meta }}</div>
+              <div style="margin-top:7px;font-size:15px;line-height:1.45">{{ a.skills }}</div>
+              <div style="margin-top:8px;display:flex;align-items:center;gap:9px;max-width:260px">
+                <span style="flex:1;height:5px;background:#EDE7D8;border-radius:1px"><span style="display:block;height:5px;width:{{ a.pct }}%;background:{{ a.pctColor }};border-radius:1px"></span></span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5A6B80">PROFILE {{ a.pct }}%</span>
+              </div>
+            </div>
+            <div style="flex:none;display:flex;flex-direction:column;gap:8px;min-width:190px">
+              <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5A6B80">UPDATE STATUS</span>
+                <select value="{{ a.status }}" onChange="{{ a.setStatus }}" style="margin-top:5px;width:100%;height:44px;padding:0 10px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none">
+                  <sc-for list="{{ statusOptions }}" as="st" hint-placeholder-count="5"><option>{{ st }}</option></sc-for>
+                </select></label>
+              <sc-if value="{{ a.canShortlist }}">
+                <button type="button" onClick="{{ a.shortlist }}" style="min-height:44px;padding:0 14px;background:#1B4E8F;color:#FAF7EF;border:none;border-radius:3px;font-size:15px;font-weight:600;cursor:pointer" style-hover="background:#163F74">Shortlist</button>
+              </sc-if>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.07em;color:#5A6B80;line-height:1.6">CHANGING STATUS TEXTS THE APPLICANT</div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ noApplicants }}">
+      <div style="margin-top:14px;border:1px dashed #DED8C8;border-radius:3px;padding:26px 18px">
+        <div style="font-size:17px;font-weight:600">No applicants match these filters.</div>
+        <p style="margin:8px 0 0;font-size:15px;color:#5A6B80;line-height:1.45;max-width:40ch">Widen the skill or education filter. Requiring more than the job needs is the usual reason a Bacoor vacancy sits unfilled.</p>
+      </div>
+    </sc-if>
+  </section>
+
+  <!-- ════════ COMPANY PROFILE ════════ -->
+  <section style="padding:clamp(24px,3vw,40px) clamp(16px,4vw,48px)">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <h2 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:600;font-size:clamp(21px,2.2vw,28px);letter-spacing:-0.01em">Company profile</h2>
+      <button type="button" onClick="{{ toggleEdit }}" style="min-height:44px;padding:0 14px;background:{{ editBg }};color:{{ editFg }};border:1px solid #123A6B;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;cursor:pointer">{{ editLabel }}</button>
+    </div>
+    <p style="margin:10px 0 0;font-size:15px;line-height:1.5;color:#5A6B80;max-width:52ch">Jobseekers see your name, business type and location. Contact details are released only to applicants you shortlist.</p>
+
+    <div style="margin-top:16px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;padding:16px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+        <sc-for list="{{ profileFields }}" as="pf" hint-placeholder-count="9">
+          <label style="display:block">
+            <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">{{ pf.label }}</span>
+            <sc-if value="{{ pf.editing }}">
+              <input type="text" value="{{ pf.value }}" onChange="{{ pf.set }}" style="margin-top:6px;width:100%;height:46px;padding:0 12px;background:#FAF7EF;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none" />
+            </sc-if>
+            <sc-if value="{{ pf.reading }}" hint-placeholder-val="{{ true }}">
+              <span style="display:block;margin-top:6px;font-size:16px;line-height:1.45">{{ pf.value }}</span>
+            </sc-if>
+          </label>
+        </sc-for>
+      </div>
+      <sc-if value="{{ editing }}">
+        <div style="margin-top:18px;padding-top:16px;border-top:1px solid #DED8C8;display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" onClick="{{ saveProfile }}" style="min-height:48px;padding:0 18px;background:#1B4E8F;color:#FAF7EF;border:none;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#163F74">Save changes</button>
+          <button type="button" onClick="{{ toggleEdit }}" style="min-height:48px;padding:0 18px;background:transparent;color:#123A6B;border:1px solid #DED8C8;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer">Cancel</button>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  </main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:980}}">
+class Component extends DCLogic {
+  state = {
+    data: null, paused: false, status: null,
+    clType: 'local',
+    pTitle: '', pCount: '', pSalary: '', posted: false, postedNote: '',
+    fVac: 'all', fSkill: 'all', fEduc: 'all', fStatus: 'all',
+    statusOverride: {}, notice: '',
+    editing: false, profileEdit: {},
+    renewed: {}
+  };
+
+  componentDidMount() {
+    fetch('./employer-data.json').then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d) this.setState({ data: d, status: (d.company && d.company.status) || 'approved', clType: (d.company && d.company.type) || 'local' }); })
+      .catch(() => {});
+  }
+
+  fallback() {
+    return { company: { name: 'Sample Employer Inc.', type: 'local', status: 'approved', approved: '06 AUG 2026', officer: 'R. Dela Cruz', ref: 'PESO-EMP-2026-00147' },
+      steps: [], checklists: { local: [], overseas: [] }, postings: [], applicants: [],
+      statuses: ['New', 'Shortlisted', 'Interview', 'Hired', 'Not selected'], notices: {}, renewals: [], profile: {} };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const d = s.data || this.fallback();
+    const co = d.company || {};
+    const status = s.status || co.status || 'approved';
+    const U = (x) => String(x || '').toUpperCase();
+
+    const rank = { New: 0, Shortlisted: 1, Interview: 2, Hired: 3, 'Not selected': 4 };
+    const accentFor = (st) => st === 'Hired' ? '#1B4E8F' : st === 'Not selected' ? '#B03A2E'
+      : st === 'Interview' ? '#1B4E8F' : st === 'Shortlisted' ? '#2560A8' : '#DED8C8';
+
+    const statusOf = (a) => s.statusOverride[a.id] || a.status;
+    const all = d.applicants || [];
+    const skills = [];
+    all.forEach((a) => a.skills.forEach((k) => { if (skills.indexOf(k) === -1) skills.push(k); }));
+    skills.sort();
+    const educRank = { Elementary: 0, 'High school': 1, 'Senior high school': 2, 'Vocational / TESDA': 3, College: 4 };
+
+    const applicants = all.filter((a) => {
+      if (s.fVac !== 'all' && a.vacancy !== s.fVac) return false;
+      if (s.fSkill !== 'all' && a.skills.indexOf(s.fSkill) === -1) return false;
+      if (s.fEduc !== 'all' && (educRank[a.educ] || 0) < (educRank[s.fEduc] || 0)) return false;
+      if (s.fStatus !== 'all' && statusOf(a) !== s.fStatus) return false;
+      return true;
+    }).sort((a, b) => (rank[statusOf(b)] || 0) - (rank[statusOf(a)] || 0));
+
+    const vacTitle = (id) => {
+      const hit = (d.postings || []).filter((p) => p.id === id)[0];
+      return hit ? hit.title : id;
+    };
+    const compose = (st, a) => {
+      const tpl = (d.notices || {})[st] || '';
+      return tpl.split('{job}').join(vacTitle(a.vacancy)).split('{company}').join(co.name || 'the employer');
+    };
+    const setStatus = (a, st) => {
+      const m = Object.assign({}, s.statusOverride);
+      m[a.id] = st;
+      this.setState({ statusOverride: m, notice: compose(st, a) });
+    };
+
+    const cl = d.checklists || { local: [], overseas: [] };
+    const groups = s.clType === 'local'
+      ? [{ label: 'REQUIRED', showLabel: false, items: cl.local || [] }]
+      : s.clType === 'overseas'
+        ? [{ label: 'ALL EMPLOYERS', showLabel: true, items: cl.local || [] },
+           { label: 'OVERSEAS AGENCIES', showLabel: true, items: cl.overseas || [] }]
+        : [{ label: 'ALL EMPLOYERS', showLabel: true, items: cl.local || [] },
+           { label: 'OVERSEAS HIRING', showLabel: true, items: cl.overseas || [] }];
+    let n = 0;
+    const checklistGroups = groups.map((g) => ({
+      label: g.label, showLabel: g.showLabel,
+      items: g.items.map((name) => { n += 1; return { n: String(n).padStart(2, '0'), name: name }; })
+    }));
+
+    const prof = d.profile || {};
+    const fieldDefs = [
+      ['name', 'REGISTERED COMPANY NAME'], ['business', 'TYPE OF BUSINESS'], ['tin', 'TIN'],
+      ['address', 'BUSINESS ADDRESS'], ['contact', 'CONTACT PERSON'], ['position', 'POSITION'],
+      ['mobile', 'MOBILE NUMBER'], ['email', 'EMAIL ADDRESS'], ['employees', 'NUMBER OF EMPLOYEES']
+    ];
+
+    const postReady = s.pTitle.trim().length > 1 && s.pSalary.trim().length > 2 && status === 'approved';
+
+    return {
+      pausedAttr: s.paused ? 'true' : null,
+      pauseLabel: s.paused ? '\u25B6 PLAY ANIMATION' : '\u23F8 PAUSE ANIMATION',
+      togglePause: () => this.setState({ paused: !s.paused }),
+      scrollChecklist: () => {
+        if (typeof document === 'undefined') return;
+        const el = document.getElementById('checklist');
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' });
+      },
+
+      companyName: co.name || '', companyRef: co.ref || '',
+      approvedOn: co.approved || '', officer: co.officer || '',
+      isApproved: status === 'approved', isPending: status === 'pending',
+      decisionBy: '21 AUG 2026',
+      apprBg: status === 'approved' ? '#123A6B' : 'transparent',
+      apprFg: status === 'approved' ? '#FAF7EF' : '#123A6B',
+      pendBg: status === 'pending' ? '#123A6B' : 'transparent',
+      pendFg: status === 'pending' ? '#FAF7EF' : '#123A6B',
+      simApproved: () => this.setState({ status: 'approved' }),
+      simPending: () => this.setState({ status: 'pending' }),
+      tracker: [
+        { name: 'Submitted', detail: '18 AUG 2026, 09:14', stage: 0 },
+        { name: 'Under review', detail: 'IN PROGRESS', stage: 1 },
+        { name: 'Decision', detail: 'EXPECTED BY 21 AUG 2026', stage: 2 }
+      ].map((st, i) => ({
+        name: st.name, detail: st.detail, hasLine: i < 2,
+        fg: i <= 1 ? '#123A6B' : '#5A6B80',
+        dotBg: i < 1 ? '#123A6B' : i === 1 ? '#FAF7EF' : 'transparent',
+        dotBorder: i <= 1 ? '#123A6B' : '#DED8C8',
+        line: i < 1 ? '#123A6B' : '#DED8C8'
+      })),
+
+      steps: d.steps || [],
+      typeTabs: [['local', 'LOCAL COMPANY'], ['overseas', 'OVERSEAS AGENCY'], ['both', 'BOTH']].map(([k, l]) => ({
+        label: l,
+        bg: s.clType === k ? '#123A6B' : 'transparent',
+        fg: s.clType === k ? '#FAF7EF' : '#123A6B',
+        border: s.clType === k ? '#123A6B' : '#E8D9A6',
+        go: () => this.setState({ clType: k })
+      })),
+      checklistGroups: checklistGroups,
+
+      renewals: (d.renewals || []).map((r) => {
+        const done = !!s.renewed[r.doc];
+        const soon = r.daysLeft <= 45;
+        return {
+          doc: r.doc, expires: r.expires, note: r.note,
+          left: r.daysLeft + ' DAYS LEFT',
+          fg: soon ? '#B03A2E' : '#5A6B80',
+          action: done ? 'FILE SENT' : 'SEND NEW FILE',
+          btnFg: done ? '#5A6B80' : '#123A6B',
+          btnBorder: done ? '#DED8C8' : '#123A6B',
+          upload: () => {
+            if (done || typeof document === 'undefined') return;
+            const el = document.createElement('input');
+            el.type = 'file'; el.accept = 'application/pdf,image/*';
+            el.onchange = () => {
+              if (!el.files || !el.files[0]) return;
+              const m = Object.assign({}, s.renewed); m[r.doc] = true;
+              this.setState({ renewed: m });
+            };
+            el.click();
+          }
+        };
+      }),
+
+      pTitle: s.pTitle, pCount: s.pCount, pSalary: s.pSalary,
+      setPTitle: (e) => this.setState({ pTitle: e.target.value }),
+      setPCount: (e) => this.setState({ pCount: e.target.value }),
+      setPSalary: (e) => this.setState({ pSalary: e.target.value }),
+      postBlocked: !postReady,
+      postBg: postReady ? '#1B4E8F' : '#DED8C8',
+      postFg: postReady ? '#FAF7EF' : '#5A6B80',
+      postCursor: postReady ? 'pointer' : 'not-allowed',
+      postHint: status !== 'approved'
+        ? 'YOUR ACCOUNT MUST BE VERIFIED BEFORE YOU CAN PUBLISH'
+        : !s.pTitle.trim() ? 'A POSITION TITLE IS NEEDED'
+        : !s.pSalary.trim() ? 'A SALARY RANGE IS NEEDED'
+        : 'READY TO PUBLISH',
+      postHintFg: postReady ? '#1B4E8F' : '#5A6B80',
+      posted: s.posted, postedNote: s.postedNote,
+      submitPost: () => {
+        if (!postReady) return;
+        this.setState({
+          posted: true,
+          postedNote: s.pTitle.trim() + ' is live and visible to registered Bacoor jobseekers. Applications arrive in the list below.',
+          pTitle: '', pCount: '', pSalary: ''
+        });
+      },
+      goPost: () => {
+        if (typeof document === 'undefined') return;
+        const el = document.getElementById('checklist');
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + 260, behavior: 'smooth' });
+      },
+
+      postings: (d.postings || []).map((p) => ({
+        title: p.title, salary: p.salary, posted: p.posted, expires: p.expires,
+        meta: p.id + ' \u00B7 ' + U(p.barangay) + ' \u00B7 ' + U(p.type),
+        views: String(p.views), applicants: String(p.applicants),
+        hasNew: p.new > 0, newLabel: p.new + ' NEW',
+        expFg: /2[0-9] AUG 2026/.test(p.expires) ? '#B03A2E' : '#5A6B80',
+        bg: s.fVac === p.id ? '#FAF7EF' : '#FFFDF7',
+        open: () => this.setState({ fVac: p.id, fStatus: 'all' })
+      })),
+
+      vacancyOptions: (d.postings || []).map((p) => ({ id: p.id, title: p.title })),
+      skillOptions: skills,
+      statusOptions: d.statuses || [],
+      fVac: s.fVac, fSkill: s.fSkill, fEduc: s.fEduc, fStatus: s.fStatus,
+      setFVac: (e) => this.setState({ fVac: e.target.value }),
+      setFSkill: (e) => this.setState({ fSkill: e.target.value }),
+      setFEduc: (e) => this.setState({ fEduc: e.target.value }),
+      setFStatus: (e) => this.setState({ fStatus: e.target.value }),
+      applicantCount: applicants.length + ' OF ' + all.length + ' SHOWN',
+      noApplicants: applicants.length === 0,
+      notice: s.notice,
+
+      applicants: applicants.map((a) => {
+        const st = statusOf(a);
+        return {
+          name: a.name, status: st, statusUpper: U(st), accent: accentFor(st),
+          meta: a.id + ' \u00B7 ' + U(a.barangay) + ' \u00B7 AGE ' + a.age + ' \u00B7 ' + U(a.educ) + ' \u00B7 APPLIED ' + a.applied + ' \u00B7 FOR ' + U(vacTitle(a.vacancy)),
+          skills: a.skills.join(', '),
+          pct: String(a.pct),
+          pctColor: a.pct >= 100 ? '#1B4E8F' : '#2560A8',
+          canShortlist: st === 'New',
+          shortlist: () => setStatus(a, 'Shortlisted'),
+          setStatus: (e) => setStatus(a, e.target.value)
+        };
+      }),
+
+      editing: s.editing,
+      editLabel: s.editing ? 'CANCEL EDITING' : 'EDIT PROFILE',
+      editBg: s.editing ? '#123A6B' : 'transparent',
+      editFg: s.editing ? '#FAF7EF' : '#123A6B',
+      toggleEdit: () => this.setState({ editing: !s.editing, profileEdit: {} }),
+      saveProfile: () => this.setState({ editing: false }),
+      profileFields: fieldDefs.map(([key, label]) => ({
+        label: label,
+        value: s.profileEdit[key] != null ? s.profileEdit[key] : (prof[key] || ''),
+        editing: s.editing, reading: !s.editing,
+        set: (e) => { const m = Object.assign({}, s.profileEdit); m[key] = e.target.value; this.setState({ profileEdit: m }); }
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

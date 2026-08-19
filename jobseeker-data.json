@@ -1,0 +1,320 @@
+{
+  "sample": true,
+  "updated": "19 AUG 2026",
+  "profile": {
+    "pct": 63,
+    "nextSection": "Work experience",
+    "nextLabel": "Add your work experience"
+  },
+  "recommended": [
+    {
+      "id": "V-0412",
+      "title": "Warehouse Associate",
+      "employer": "Sample Employer Inc.",
+      "barangay": "Molino IV",
+      "industry": "Transport and logistics",
+      "type": "Full-time",
+      "salary": "₱13,000–15,000 / MONTH",
+      "salaryMin": 13000,
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "12 AUG 2026",
+      "why": [
+        "your preferred position",
+        "Molino IV"
+      ]
+    },
+    {
+      "id": "V-0424",
+      "title": "Delivery Rider",
+      "employer": "Sample Retail Group",
+      "barangay": "Zapote V",
+      "industry": "Transport and logistics",
+      "type": "Full-time",
+      "salary": "₱14,500 + ALLOWANCE / MONTH",
+      "salaryMin": 14500,
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "04 AUG 2026",
+      "why": [
+        "driving on your skills list"
+      ]
+    },
+    {
+      "id": "V-0418",
+      "title": "Customer Service Representative",
+      "employer": "Sample BPO Services Corp.",
+      "barangay": "Bacoor",
+      "industry": "BPO and IT",
+      "type": "Full-time",
+      "salary": "₱18,000–22,000 / MONTH",
+      "salaryMin": 18000,
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "09 AUG 2026",
+      "why": [
+        "your preferred industry"
+      ]
+    },
+    {
+      "id": "V-0427",
+      "title": "Production Operator",
+      "employer": "Sample Food Manufacturing",
+      "barangay": "Mambog III",
+      "industry": "Manufacturing",
+      "type": "Full-time",
+      "salary": "₱12,800–14,000 / MONTH",
+      "salaryMin": 12800,
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "01 AUG 2026",
+      "why": []
+    },
+    {
+      "id": "V-0421",
+      "title": "Caregiver",
+      "employer": "Sample Manpower Agency",
+      "barangay": "Overseas",
+      "industry": "Health and care work",
+      "type": "Contractual",
+      "salary": "NT$27,470 / MONTH",
+      "salaryMin": 45000,
+      "scope": "OVERSEAS",
+      "dmw": "DMW LICENCE POEA-000-LB-000000-R",
+      "verified": "05 AUG 2026",
+      "why": [
+        "caregiving on your skills list",
+        "overseas work"
+      ]
+    },
+    {
+      "id": "V-0430",
+      "title": "Welder (6G)",
+      "employer": "Sample Overseas Placement",
+      "barangay": "Overseas",
+      "industry": "Construction",
+      "type": "Contractual",
+      "salary": "SAR 2,800 / MONTH",
+      "salaryMin": 42000,
+      "scope": "OVERSEAS",
+      "dmw": "DMW LICENCE POEA-000-LB-000001-R",
+      "verified": "28 JUL 2026",
+      "why": [
+        "welding on your skills list"
+      ]
+    },
+    {
+      "id": "V-0433",
+      "title": "Sales Associate",
+      "employer": "Sample Retail Group",
+      "barangay": "Talaba VII",
+      "industry": "Retail and food service",
+      "type": "Part-time",
+      "salary": "₱11,500 / MONTH",
+      "salaryMin": 11500,
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "18 AUG 2026",
+      "why": []
+    },
+    {
+      "id": "V-0435",
+      "title": "Kitchen Helper",
+      "employer": "Sample Food Manufacturing",
+      "barangay": "Niog II",
+      "industry": "Retail and food service",
+      "type": "Full-time",
+      "salary": "₱12,000 / MONTH",
+      "salaryMin": 12000,
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "16 AUG 2026",
+      "why": []
+    },
+    {
+      "id": "V-0437",
+      "title": "Household Service Worker",
+      "employer": "Sample Overseas Placement",
+      "barangay": "Overseas",
+      "industry": "Domestic work",
+      "type": "Contractual",
+      "salary": "HK$4,990 / MONTH",
+      "salaryMin": 36000,
+      "scope": "OVERSEAS",
+      "dmw": "DMW LICENCE POEA-000-LB-000001-R",
+      "verified": "14 AUG 2026",
+      "why": []
+    }
+  ],
+  "applications": [
+    {
+      "id": "A-1180",
+      "title": "Warehouse Associate",
+      "employer": "Sample Employer Inc.",
+      "stage": 3,
+      "stages": [
+        {
+          "name": "Applied",
+          "date": "05 AUG 2026"
+        },
+        {
+          "name": "Reviewed",
+          "date": "07 AUG 2026"
+        },
+        {
+          "name": "Interview",
+          "date": "21 AUG 2026, 9:00"
+        },
+        {
+          "name": "Hired",
+          "date": ""
+        }
+      ],
+      "note": "Interview at the employer's Molino IV warehouse. Bring your NSRP reference and a valid ID."
+    },
+    {
+      "id": "A-1174",
+      "title": "Customer Service Representative",
+      "employer": "Sample BPO Services Corp.",
+      "stage": 2,
+      "stages": [
+        {
+          "name": "Applied",
+          "date": "02 AUG 2026"
+        },
+        {
+          "name": "Reviewed",
+          "date": "06 AUG 2026"
+        },
+        {
+          "name": "Interview",
+          "date": ""
+        },
+        {
+          "name": "Hired",
+          "date": ""
+        }
+      ],
+      "note": "The employer has your profile. PESO will text you if they schedule an interview."
+    },
+    {
+      "id": "A-1141",
+      "title": "Production Operator",
+      "employer": "Sample Food Manufacturing",
+      "stage": 4,
+      "stages": [
+        {
+          "name": "Applied",
+          "date": "12 JUL 2026"
+        },
+        {
+          "name": "Reviewed",
+          "date": "15 JUL 2026"
+        },
+        {
+          "name": "Interview",
+          "date": "22 JUL 2026"
+        },
+        {
+          "name": "Hired",
+          "date": "29 JUL 2026"
+        }
+      ],
+      "note": "You told us you were hired. Thank you — reported placements keep openings coming to Bacoor."
+    }
+  ],
+  "saved": [
+    {
+      "id": "V-0418",
+      "title": "Customer Service Representative",
+      "employer": "Sample BPO Services Corp.",
+      "salary": "₱18,000–22,000 / MONTH",
+      "closes": "09 SEP 2026",
+      "scope": "LOCAL"
+    },
+    {
+      "id": "V-0421",
+      "title": "Caregiver",
+      "employer": "Sample Manpower Agency",
+      "salary": "NT$27,470 / MONTH",
+      "closes": "05 SEP 2026",
+      "scope": "OVERSEAS"
+    }
+  ],
+  "events": [
+    {
+      "date": "27 AUG 2026",
+      "time": "8:00–16:00",
+      "tag": "JOB FAIR",
+      "title": "City-wide job fair",
+      "place": "Bacoor City Hall grounds",
+      "detail": "24 verified employers. Bring two copies of your résumé and any valid ID."
+    },
+    {
+      "date": "EVERY TUE & THU",
+      "time": "8:00–15:00",
+      "tag": "WALK-IN",
+      "title": "Walk-in registration and counselling",
+      "place": "PESO office, ground floor, City Hall",
+      "detail": "No appointment needed."
+    },
+    {
+      "date": "03 SEP 2026",
+      "time": "9:00–15:00",
+      "tag": "SPECIAL RECRUITMENT",
+      "title": "Taiwan factory workers",
+      "place": "PESO office",
+      "detail": "Run by a DMW-licensed agency under PESO supervision. No placement fee is collected on site."
+    }
+  ],
+  "barangays": [
+    "Any barangay",
+    "Molino IV",
+    "Talaba VII",
+    "Zapote V",
+    "Mambog III",
+    "Niog II",
+    "Habay I",
+    "Panapaan IV",
+    "Bayanan"
+  ],
+  "industries": [
+    "Any industry",
+    "Manufacturing",
+    "Retail and food service",
+    "Construction",
+    "Transport and logistics",
+    "BPO and IT",
+    "Health and care work",
+    "Domestic work"
+  ],
+  "types": [
+    "Any type",
+    "Full-time",
+    "Part-time",
+    "Contractual",
+    "Project-based"
+  ],
+  "salaryBands": [
+    {
+      "label": "Any salary",
+      "min": 0
+    },
+    {
+      "label": "₱12,000 and up",
+      "min": 12000
+    },
+    {
+      "label": "₱15,000 and up",
+      "min": 15000
+    },
+    {
+      "label": "₱20,000 and up",
+      "min": 20000
+    },
+    {
+      "label": "₱40,000 and up",
+      "min": 40000
+    }
+  ]
+}

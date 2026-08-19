@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDE7D8; }
+  body { font-family: 'Source Sans 3', system-ui, sans-serif; color: #123A6B; -webkit-font-smoothing: antialiased; text-wrap: pretty; }
+  * { box-sizing: border-box; }
+  a { color: #1B4E8F; text-underline-offset: 3px; }
+  a:hover { color: #123A6B; }
+  button, input, select { font-family: inherit; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid #1B4E8F; outline-offset: 2px; border-radius: 2px;
+  }
+
+  /* Hero sequence — one 9s clock. Base styles ARE the resolved final frame,
+     so prefers-reduced-motion (which kills the animations) shows the logo. */
+  @keyframes heroScene {
+    0%, 66% { opacity: 1; }
+    72%, 96% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes heroArmJs {
+    0% { transform: rotate(-4deg); }
+    16.7% { transform: rotate(-52deg); }
+    27.8% { transform: rotate(-44deg); }
+    33% { transform: rotate(-30deg); }
+    44.4%, 46% { transform: rotate(-30deg); }
+    61.1%, 100% { transform: rotate(-64deg); }
+  }
+  @keyframes heroArmEmp {
+    0%, 14% { transform: rotate(6deg); }
+    27.8% { transform: rotate(48deg); }
+    33% { transform: rotate(32deg); }
+    44.4% { transform: rotate(32deg); }
+    55%, 100% { transform: rotate(8deg); }
+  }
+  @keyframes heroPaper {
+    0% { transform: translate(0, 0) rotate(-8deg); opacity: 1; }
+    16.7% { transform: translate(150px, -6px) rotate(-4deg); opacity: 1; }
+    27.8% { transform: translate(212px, -10px) rotate(6deg); opacity: 1; }
+    38% { transform: translate(228px, 6px) rotate(14deg); opacity: 1; }
+    44.4% { transform: translate(228px, 10px) rotate(14deg); opacity: 0; }
+    100% { transform: translate(228px, 10px) rotate(14deg); opacity: 0; }
+  }
+  @keyframes heroShake {
+    0%, 27.8% { transform: translateY(0); }
+    31% { transform: translateY(5px); }
+    34% { transform: translateY(-3px); }
+    37% { transform: translateY(4px); }
+    40%, 100% { transform: translateY(0); }
+  }
+  @keyframes heroHeadTilt {
+    0%, 14% { transform: rotate(0deg); }
+    20% { transform: rotate(9deg); }
+    27.8%, 100% { transform: rotate(0deg); }
+  }
+  @keyframes heroTurn {
+    0%, 40% { transform: scaleX(1); }
+    47%, 100% { transform: scaleX(0.72); }
+  }
+  /* The pin circle never crossfades — it is one element that grows into the seal. */
+  @keyframes heroPin {
+    0%, 42% { transform: translate(0px, 0px) scale(0.06); opacity: 0; }
+    46% { transform: translate(0px, 0px) scale(0.06); opacity: 1; }
+    61.1% { transform: translate(-6px, -26px) scale(0.09); opacity: 1; }
+    72.2% { transform: translate(-40px, -34px) scale(0.42); opacity: 1; }
+    88.9% { transform: translate(-40px, -34px) scale(1); opacity: 1; }
+    96% { transform: translate(-40px, -34px) scale(1); opacity: 1; }
+    100% { transform: translate(0px, 0px) scale(0.06); opacity: 0; }
+  }
+  @keyframes heroSealRing {
+    0%, 68% { stroke-dashoffset: 880; opacity: 0.4; }
+    86%, 96% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 880; opacity: 0.4; }
+  }
+  @keyframes heroLogoIn {
+    0%, 74% { opacity: 0; }
+    88%, 96% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  [data-hero-paused] * { animation-play-state: paused !important; }
+  @media (prefers-reduced-motion: reduce) {
+    [data-anim], [data-anim] * { animation: none !important; transition: none !important; }
+  }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#EDE7D8;display:flex;justify-content:center">
+<div style="width:100%;max-width:1180px;background:#FAF7EF;min-height:100vh;border-left:1px solid #DED8C8;border-right:1px solid #DED8C8">
+
+  <div style="position:sticky;top:0;z-index:20;background:#FAF7EF;border-bottom:1px solid #DED8C8;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 clamp(16px,4vw,48px);height:56px">
+    <div style="display:flex;align-items:baseline;gap:10px;min-width:0">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.14em;white-space:nowrap">PESO BACOOR</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80;white-space:nowrap">JOBSEEKER</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.07em;color:#5A6B80">NSRP-BC-26-00841</span>
+      <span style="color:#DED8C8">|</span>
+      <button type="button" style="min-height:44px;min-width:44px;background:none;border:none;padding:0 6px;cursor:pointer;color:#123A6B;font-family:'IBM Plex Mono',monospace;font-size:12px;border-bottom:1.5px solid #123A6B">EN</button>
+      <button type="button" style="min-height:44px;min-width:44px;background:none;border:none;padding:0 6px;cursor:pointer;color:#5A6B80;font-family:'IBM Plex Mono',monospace;font-size:12px">TL</button>
+    </div>
+  </div>
+
+  <main>
+
+  <!-- ════════ HERO ════════ -->
+  <section style="position:relative;background:#123A6B;overflow:hidden">
+    <div data-anim="1" data-hero-paused="{{ pausedAttr }}" style="position:absolute;inset:0;pointer-events:none">
+      <svg viewBox="0 0 900 460" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;display:block" aria-hidden="true">
+        <rect x="0" y="0" width="900" height="460" fill="#123A6B"></rect>
+        <ellipse cx="450" cy="432" rx="330" ry="16" fill="#16406F"></ellipse>
+
+        <g style="opacity:0;animation:heroScene 9s linear infinite">
+          <g style="transform-box:view-box;transform-origin:330px 300px;animation:heroTurn 9s linear infinite">
+            <g style="transform-box:view-box;transform-origin:330px 250px;animation:heroShake 9s linear infinite">
+              <circle cx="330" cy="150" r="30" fill="#1B4E8F"></circle>
+              <path d="M330 186 c-34 0 -56 22 -60 58 l-12 178 h144 l-12 -178 c-4 -36 -26 -58 -60 -58 z" fill="#1B4E8F"></path>
+              <g style="transform-box:view-box;transform-origin:362px 214px;animation:heroArmJs 9s linear infinite">
+                <path d="M362 214 L452 258" stroke="#2560A8" stroke-width="20" stroke-linecap="round" fill="none"></path>
+              </g>
+            </g>
+          </g>
+
+          <g style="transform-box:view-box;transform-origin:600px 250px;animation:heroShake 9s linear infinite">
+            <g style="transform-box:view-box;transform-origin:600px 178px;animation:heroHeadTilt 9s linear infinite">
+              <circle cx="600" cy="150" r="30" fill="#163F74"></circle>
+            </g>
+            <path d="M600 186 c-34 0 -56 22 -60 58 l-12 178 h144 l-12 -178 c-4 -36 -26 -58 -60 -58 z" fill="#163F74"></path>
+            <g style="transform-box:view-box;transform-origin:566px 214px;animation:heroArmEmp 9s linear infinite">
+              <path d="M566 214 L478 258" stroke="#1B4E8F" stroke-width="20" stroke-linecap="round" fill="none"></path>
+            </g>
+          </g>
+
+          <g style="transform-box:view-box;transform-origin:400px 250px;animation:heroPaper 9s linear infinite">
+            <rect x="374" y="222" width="52" height="66" rx="2" fill="#FAF7EF"></rect>
+            <rect x="382" y="234" width="36" height="3" rx="1.5" fill="#B9C2D2"></rect>
+            <rect x="382" y="244" width="26" height="3" rx="1.5" fill="#B9C2D2"></rect>
+            <rect x="382" y="254" width="32" height="3" rx="1.5" fill="#B9C2D2"></rect>
+            <rect x="382" y="264" width="22" height="3" rx="1.5" fill="#B9C2D2"></rect>
+          </g>
+        </g>
+
+        <g style="transform-box:view-box;transform-origin:450px 230px;animation:heroPin 9s linear infinite">
+          <circle cx="450" cy="230" r="140" fill="#143C72"></circle>
+          <circle cx="450" cy="230" r="140" fill="none" stroke="#C8952E" stroke-width="7"
+            stroke-dasharray="880" stroke-dashoffset="0" transform="rotate(-90 450 230)"
+            style="animation:heroSealRing 9s linear infinite"></circle>
+          <circle cx="450" cy="230" r="122" fill="none" stroke="#C8952E" stroke-width="1.5" opacity="0.5"></circle>
+          <image href="{{ logoSrc }}" x="352" y="132" width="196" height="196" preserveAspectRatio="xMidYMid meet"
+            opacity="1" style="animation:heroLogoIn 9s linear infinite"></image>
+        </g>
+      </svg>
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,58,107,0.94) 0%,rgba(18,58,107,0.86) 44%,rgba(18,58,107,0.5) 100%)"></div>
+    </div>
+
+    <div style="position:relative;z-index:2;padding:clamp(34px,4.5vw,72px) clamp(16px,4vw,48px) clamp(30px,4vw,60px)">
+      <div style="max-width:620px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;color:rgba(250,247,239,0.6)">PUBLIC EMPLOYMENT SERVICE OFFICE &middot; BACOOR</div>
+        <h1 style="margin:18px 0 0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:clamp(30px,4vw,48px);line-height:1.05;letter-spacing:-0.015em;color:#FAF7EF;max-width:20ch">Work you can trust, close to home.</h1>
+        <p style="margin:16px 0 0;font-size:clamp(16px,1.4vw,19px);line-height:1.5;color:rgba(250,247,239,0.86);max-width:36ch">Every employer here was checked by a person at PESO before they could post a job. Registration, referral and placement are free.</p>
+
+        <div style="margin-top:24px;background:#FAF7EF;border-radius:3px;padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));align-items:end;gap:8px;max-width:640px;box-shadow:0 12px 34px rgba(8,26,58,0.4)">
+          <label style="display:block">
+            <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#5A6B80">WHAT WORK</span>
+            <input type="text" value="{{ kw }}" onChange="{{ setKw }}" placeholder="Job title or skill" style="margin-top:5px;width:100%;height:48px;padding:0 12px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none" />
+          </label>
+          <label style="display:block">
+            <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#5A6B80">WHERE</span>
+            <select value="{{ brgy }}" onChange="{{ setBrgy }}" style="margin-top:5px;width:100%;height:48px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:16px;color:#123A6B;outline:none">
+              <sc-for list="{{ barangays }}" as="b" hint-placeholder-count="5"><option>{{ b }}</option></sc-for>
+            </select>
+          </label>
+          <button type="button" style="display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 16px;background:#1B4E8F;color:#FAF7EF;border:none;border-radius:3px;font-size:17px;font-weight:600;cursor:pointer" style-hover="background:#163F74">
+            <span>Search jobs</span><span>&#8594;</span>
+          </button>
+        </div>
+      </div>
+
+      <button type="button" onClick="{{ togglePause }}" style="margin-top:20px;min-height:44px;padding:0 14px;background:rgba(250,247,239,0.1);color:rgba(250,247,239,0.86);border:1px solid rgba(250,247,239,0.28);border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;cursor:pointer" style-hover="background:rgba(250,247,239,0.18)">{{ pauseLabel }}</button>
+    </div>
+  </section>
+
+  <!-- ════════ FILTERS ════════ -->
+  <section style="padding:clamp(22px,3vw,36px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.13em;color:#5A6B80">NARROW YOUR SEARCH</div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#5A6B80;border:1px solid #DED8C8;padding:3px 6px;white-space:nowrap">SAMPLE DATA</span>
+    </div>
+    <div style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px">
+      <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">INDUSTRY</span>
+        <select value="{{ ind }}" onChange="{{ setInd }}" style="margin-top:5px;width:100%;height:46px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none"><sc-for list="{{ industries }}" as="x" hint-placeholder-count="5"><option>{{ x }}</option></sc-for></select></label>
+      <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">EMPLOYMENT TYPE</span>
+        <select value="{{ typ }}" onChange="{{ setTyp }}" style="margin-top:5px;width:100%;height:46px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none"><sc-for list="{{ types }}" as="x" hint-placeholder-count="4"><option>{{ x }}</option></sc-for></select></label>
+      <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">SALARY</span>
+        <select value="{{ sal }}" onChange="{{ setSal }}" style="margin-top:5px;width:100%;height:46px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none"><sc-for list="{{ salaryBands }}" as="x" hint-placeholder-count="4"><option>{{ x.label }}</option></sc-for></select></label>
+      <label style="display:block"><span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.11em;color:#5A6B80">LOCAL OR OVERSEAS</span>
+        <select value="{{ scope }}" onChange="{{ setScope }}" style="margin-top:5px;width:100%;height:46px;padding:0 10px;background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;font-size:15px;color:#123A6B;outline:none"><option>Both</option><option>Local</option><option>Overseas</option></select></label>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <button type="button" onClick="{{ toggleMine }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;background:{{ mineBg }};border:1px solid {{ mineBorder }};border-radius:3px;cursor:pointer;font-family:'Source Sans 3',sans-serif">
+        <span style="width:34px;height:18px;border-radius:100px;background:{{ mineTrack }};position:relative;flex:none"><span style="position:absolute;top:2px;left:{{ mineKnob }};width:14px;height:14px;border-radius:50%;background:#FFFDF7"></span></span>
+        <span style="font-size:15px;font-weight:600;color:{{ mineFg }}">Matches my profile</span>
+      </button>
+      <sc-if value="{{ hasFilters }}">
+        <button type="button" onClick="{{ clearFilters }}" style="min-height:44px;background:none;border:none;padding:0;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.09em;color:#5A6B80;text-decoration:underline;text-underline-offset:3px">CLEAR FILTERS</button>
+      </sc-if>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.09em;color:#5A6B80">{{ resultCount }}</span>
+    </div>
+  </section>
+
+  <!-- ════════ RECOMMENDED ════════ -->
+  <section style="padding:clamp(24px,3vw,40px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <h2 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:600;font-size:clamp(21px,2.1vw,26px);letter-spacing:-0.01em">{{ listHeading }}</h2>
+    <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px">
+      <sc-for list="{{ jobs }}" as="job" hint-placeholder-count="6">
+        <div style="background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;padding:14px 16px 16px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="width:8px;height:8px;border-radius:50%;border:1.5px solid #C8952E;flex:none"></span>
+            <span style="flex:1;height:1px;background:repeating-linear-gradient(90deg,#C8952E 0 4px,transparent 4px 7px)"></span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.11em;color:#5A6B80;border:1px solid #DED8C8;padding:2px 5px;flex:none">{{ job.scope }}</span>
+          </div>
+          <div style="margin-top:12px;font-size:18px;font-weight:600;line-height:1.25">{{ job.title }}</div>
+          <div style="margin-top:3px;font-size:15px">{{ job.employer }}</div>
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:3px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#5A6B80">
+            <span>{{ job.meta }}</span>
+            <span style="color:#123A6B">{{ job.salary }}</span>
+            <sc-if value="{{ job.isOverseas }}"><span>{{ job.dmw }}</span></sc-if>
+            <span style="color:#8A6414">VERIFIED {{ job.verified }}</span>
+          </div>
+          <sc-if value="{{ job.hasWhy }}">
+            <div style="margin-top:12px;padding-top:10px;border-top:1px solid #DED8C8;font-size:14px;line-height:1.45;color:#1B4E8F">{{ job.why }}</div>
+          </sc-if>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" style="flex:1;min-width:120px;min-height:44px;padding:0 14px;background:#1B4E8F;color:#FAF7EF;border:none;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#163F74">Apply through PESO</button>
+            <button type="button" onClick="{{ job.toggleSave }}" style="flex:none;min-height:44px;padding:0 12px;background:transparent;color:{{ job.saveFg }};border:1px solid {{ job.saveBorder }};border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;cursor:pointer">{{ job.saveLabel }}</button>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <sc-if value="{{ noJobs }}">
+      <div style="margin-top:16px;border:1px dashed #DED8C8;border-radius:3px;padding:26px 18px">
+        <div style="font-size:17px;font-weight:600">Nothing open fits these filters.</div>
+        <p style="margin:8px 0 0;font-size:15px;color:#5A6B80;line-height:1.45;max-width:38ch">Try clearing a filter, or turn off &#8220;Matches my profile&#8221; to see every verified opening. We will text you when something new fits.</p>
+        <button type="button" onClick="{{ clearFilters }}" style="margin-top:14px;min-height:44px;padding:0 16px;background:#1B4E8F;color:#FAF7EF;border:none;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer">Clear filters</button>
+      </div>
+    </sc-if>
+  </section>
+
+  <!-- ════════ DASHBOARD ════════ -->
+  <section style="padding:clamp(24px,3vw,40px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;align-items:start">
+
+      <div style="background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;padding:16px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;color:#5A6B80">PROFILE COMPLETION</div>
+        <div style="margin-top:14px;display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+          <div style="position:relative;width:92px;height:92px;flex:none">
+            <div style="position:absolute;inset:0;border-radius:50%;background:conic-gradient({{ meterColor }} {{ meterDeg }}deg,#EDE7D8 0)"></div>
+            <div style="position:absolute;inset:11px;border-radius:50%;background:#FFFDF7;display:flex;align-items:center;justify-content:center">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:500;color:{{ meterColor }}">{{ meterPct }}%</span>
+            </div>
+          </div>
+          <div style="flex:1;min-width:180px">
+            <div style="font-size:17px;font-weight:600;line-height:1.35">{{ meterNext }}</div>
+            <div style="margin-top:4px;font-size:15px;color:#5A6B80;line-height:1.45">A complete profile gets you better matches and a gold seal on your record.</div>
+            <button type="button" style="margin-top:12px;min-height:44px;padding:0 16px;background:#1B4E8F;color:#FAF7EF;border:none;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#163F74">Continue where I left off</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#FFFDF7;border:1px solid #DED8C8;border-radius:3px;padding:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;color:#5A6B80">SAVED JOBS</div>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:#5A6B80">{{ savedCount }}</span>
+        </div>
+        <div style="margin-top:12px;border-top:1px solid #DED8C8">
+          <sc-for list="{{ saved }}" as="sv" hint-placeholder-count="2">
+            <div style="display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:12px 0;border-bottom:1px solid #DED8C8;flex-wrap:wrap">
+              <div style="min-width:0;flex:1">
+                <div style="font-size:16px;font-weight:600;line-height:1.3">{{ sv.title }}</div>
+                <div style="margin-top:3px;font-size:14px;color:#5A6B80">{{ sv.employer }}</div>
+                <div style="margin-top:5px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;color:#5A6B80">{{ sv.salary }} &middot; {{ sv.dateLine }}</div>
+              </div>
+              <button type="button" onClick="{{ sv.remove }}" style="flex:none;min-height:44px;padding:0 12px;background:transparent;border:1px solid #DED8C8;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;color:#5A6B80;cursor:pointer" style-hover="border-color:#B03A2E;color:#B03A2E">REMOVE</button>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noSaved }}">
+            <div style="padding:20px 0;font-size:15px;color:#5A6B80;line-height:1.5">Nothing saved yet. Tap SAVE on any opening above and it waits for you here.</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ APPLICATION TRACKER ════════ -->
+  <section style="padding:clamp(24px,3vw,40px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <h2 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:600;font-size:clamp(21px,2.1vw,26px);letter-spacing:-0.01em">Your applications</h2>
+    <div style="margin-top:16px;display:flex;flex-direction:column;gap:12px">
+      <sc-for list="{{ applications }}" as="app" hint-placeholder-count="3">
+        <div style="background:#FFFDF7;border:1px solid #DED8C8;border-left:3px solid {{ app.accent }};border-radius:3px;padding:15px 16px 16px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <div style="min-width:0">
+              <div style="font-size:17px;font-weight:600;line-height:1.3">{{ app.title }}</div>
+              <div style="margin-top:3px;font-size:15px;color:#5A6B80">{{ app.employer }}</div>
+            </div>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:{{ app.accent }};flex:none">{{ app.stageLabel }}</span>
+          </div>
+
+          <div style="margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <sc-for list="{{ app.steps }}" as="st" hint-placeholder-count="4">
+              <div>
+                <div style="height:4px;border-radius:2px;background:{{ st.bar }}"></div>
+                <div style="margin-top:7px;font-size:13px;font-weight:600;color:{{ st.fg }};line-height:1.25">{{ st.name }}</div>
+                <div style="margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.05em;color:#5A6B80;line-height:1.4">{{ st.date }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid #DED8C8;font-size:15px;line-height:1.5;color:#123A6B;max-width:60ch">{{ app.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ════════ EVENTS ════════ -->
+  <section style="padding:clamp(24px,3vw,40px) clamp(16px,4vw,48px);border-bottom:1px solid #DED8C8">
+    <h2 style="margin:0;font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:600;font-size:clamp(21px,2.1vw,26px);letter-spacing:-0.01em">At the PESO office</h2>
+    <div style="margin-top:14px;border-top:1px solid #DED8C8">
+      <sc-for list="{{ events }}" as="ev" hint-placeholder-count="3">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px clamp(16px,3vw,40px);padding:16px 0;border-bottom:1px solid #DED8C8">
+          <div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;font-weight:500">{{ ev.date }}</span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.11em;color:#5A6B80;border:1px solid #DED8C8;padding:2px 5px">{{ ev.tag }}</span>
+            </div>
+            <div style="margin-top:8px;font-size:17px;font-weight:600;line-height:1.3">{{ ev.title }}</div>
+            <div style="margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;color:#5A6B80">{{ ev.time }} &middot; {{ ev.place }}</div>
+          </div>
+          <div style="font-size:15px;color:#5A6B80;line-height:1.5;max-width:52ch">{{ ev.detail }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ════════ KNOW YOUR RIGHTS ════════ -->
+  <section style="background:#123A6B;color:#FAF7EF;padding:clamp(28px,3.5vw,52px) clamp(16px,4vw,48px)">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.14em;color:rgba(250,247,239,0.6)">KNOW YOUR RIGHTS</div>
+    <div style="margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px clamp(20px,4vw,48px)">
+      <div>
+        <div style="font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:20px;line-height:1.2;color:#FAF7EF">PESO is free.</div>
+        <p style="margin:8px 0 0;font-size:16px;line-height:1.55;color:rgba(250,247,239,0.84);max-width:34ch">Registration, counselling, referral and placement cost you nothing. There is no fee at any step.</p>
+      </div>
+      <div>
+        <div style="font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:20px;line-height:1.2;color:#FAF7EF">No legitimate employer charges you.</div>
+        <p style="margin:8px 0 0;font-size:16px;line-height:1.55;color:rgba(250,247,239,0.84);max-width:34ch">Not for an application, a medical, training, or &#8220;processing.&#8221; Overseas agencies must show a current DMW licence before they recruit.</p>
+      </div>
+      <div>
+        <div style="font-family:Archivo,system-ui,sans-serif;font-stretch:112%;font-weight:700;font-size:20px;line-height:1.2;color:#FAF7EF">If someone asks for money, tell us.</div>
+        <p style="margin:8px 0 0;font-size:16px;line-height:1.55;color:rgba(250,247,239,0.84);max-width:34ch">Reporting is free and you do not need to give your name to start.</p>
+        <button type="button" style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:50px;padding:0 16px;background:#F5C63C;color:#123A6B;border:none;border-radius:3px;font-size:16px;font-weight:600;cursor:pointer" style-hover="background:#E0B22C">
+          <span>Report a recruiter</span><span>&#8594;</span>
+        </button>
+        <div style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;color:rgba(250,247,239,0.62);line-height:1.7">HOTLINE (046) 000-0000<br />MON&ndash;FRI 8:00&ndash;17:00</div>
+      </div>
+    </div>
+    <div style="margin-top:26px;padding-top:18px;border-top:1px solid rgba(250,247,239,0.18);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.09em;color:rgba(250,247,239,0.55);line-height:1.9">A FREE SERVICE UNDER RA 8759, AS AMENDED BY RA 10691.<br />SUPERVISED BY DOLE &middot; CITY GOVERNMENT OF BACOOR</div>
+  </section>
+
+  </main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:980},&quot;logoSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;./assets/peso-logo-hero.png&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = {
+    data: null, paused: false,
+    kw: '', brgy: 'Any barangay', ind: 'Any industry', typ: 'Any type',
+    sal: 'Any salary', scope: 'Both', mine: true,
+    savedIds: null, removed: {}
+  };
+
+  componentDidMount() {
+    fetch('./jobseeker-data.json').then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d) this.setState({ data: d, savedIds: (d.saved || []).map((x) => x.id) }); })
+      .catch(() => {});
+  }
+
+  fallback() {
+    return { profile: { pct: 63, nextLabel: 'Add your work experience' }, recommended: [], applications: [],
+      saved: [], events: [], barangays: ['Any barangay'], industries: ['Any industry'],
+      types: ['Any type'], salaryBands: [{ label: 'Any salary', min: 0 }] };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const d = s.data || this.fallback();
+    const band = (d.salaryBands || []).filter((b) => b.label === s.sal)[0] || { min: 0 };
+    const savedIds = s.savedIds || [];
+
+    const filtered = (d.recommended || []).filter((j) => {
+      const q = s.kw.trim().toLowerCase();
+      if (q && (j.title + ' ' + j.employer + ' ' + j.industry).toLowerCase().indexOf(q) === -1) return false;
+      if (s.brgy !== 'Any barangay' && j.barangay !== s.brgy) return false;
+      if (s.ind !== 'Any industry' && j.industry !== s.ind) return false;
+      if (s.typ !== 'Any type' && j.type !== s.typ) return false;
+      if (band.min > 0 && (j.salaryMin || 0) < band.min) return false;
+      if (s.scope === 'Local' && j.scope !== 'LOCAL') return false;
+      if (s.scope === 'Overseas' && j.scope !== 'OVERSEAS') return false;
+      if (s.mine && !(j.why && j.why.length)) return false;
+      return true;
+    });
+
+    const hasFilters = !!(s.kw.trim() || s.brgy !== 'Any barangay' || s.ind !== 'Any industry'
+      || s.typ !== 'Any type' || s.sal !== 'Any salary' || s.scope !== 'Both' || !s.mine);
+
+    const pct = (d.profile && d.profile.pct) || 0;
+    // One source of truth: every saved id renders, wherever its record lives.
+    const pool = {};
+    (d.recommended || []).concat(d.saved || []).forEach((x) => { pool[x.id] = Object.assign({}, pool[x.id], x); });
+    const savedRows = savedIds.filter((id) => pool[id] && !s.removed[id]).map((id) => pool[id]);
+
+    const stageColor = ['#5A6B80', '#5A6B80', '#1B4E8F', '#1B4E8F', '#1B4E8F'];
+
+    return {
+      logoSrc: this.props.logoSrc ?? './assets/peso-logo-hero.png',
+      pausedAttr: s.paused ? 'true' : null,
+      pauseLabel: s.paused ? '\u25B6 PLAY ANIMATION' : '\u23F8 PAUSE ANIMATION',
+      togglePause: () => this.setState({ paused: !s.paused }),
+
+      barangays: d.barangays || [], industries: d.industries || [],
+      types: d.types || [], salaryBands: d.salaryBands || [],
+      kw: s.kw, brgy: s.brgy, ind: s.ind, typ: s.typ, sal: s.sal, scope: s.scope,
+      setKw: (e) => this.setState({ kw: e.target.value }),
+      setBrgy: (e) => this.setState({ brgy: e.target.value }),
+      setInd: (e) => this.setState({ ind: e.target.value }),
+      setTyp: (e) => this.setState({ typ: e.target.value }),
+      setSal: (e) => this.setState({ sal: e.target.value }),
+      setScope: (e) => this.setState({ scope: e.target.value }),
+      toggleMine: () => this.setState({ mine: !s.mine }),
+      mineBg: s.mine ? 'rgba(27,78,143,0.08)' : 'transparent',
+      mineBorder: s.mine ? '#1B4E8F' : '#DED8C8',
+      mineTrack: s.mine ? '#1B4E8F' : '#BAC2CE',
+      mineKnob: s.mine ? '18px' : '2px',
+      mineFg: s.mine ? '#1B4E8F' : '#123A6B',
+      hasFilters: hasFilters,
+      clearFilters: () => this.setState({ kw: '', brgy: 'Any barangay', ind: 'Any industry', typ: 'Any type', sal: 'Any salary', scope: 'Both', mine: false }),
+      resultCount: filtered.length + (filtered.length === 1 ? ' OPENING' : ' OPENINGS'),
+      listHeading: s.mine ? 'Recommended for you' : 'Verified openings',
+
+      jobs: filtered.map((j) => {
+        const on = savedIds.indexOf(j.id) > -1 && !s.removed[j.id];
+        return {
+          title: j.title, employer: j.employer, salary: j.salary, scope: j.scope,
+          meta: j.barangay.toUpperCase() + ' \u00B7 ' + j.type.toUpperCase(),
+          isOverseas: j.scope === 'OVERSEAS' && !!j.dmw, dmw: j.dmw || '',
+          verified: j.verified,
+          hasWhy: !!(j.why && j.why.length),
+          why: j.why && j.why.length
+            ? 'Matches ' + (j.why.length > 1 ? j.why.slice(0, -1).join(', ') + ' and ' + j.why[j.why.length - 1] : j.why[0]) + '.'
+            : '',
+          saveLabel: on ? 'SAVED' : 'SAVE',
+          saveFg: on ? '#1B4E8F' : '#123A6B',
+          saveBorder: on ? '#1B4E8F' : '#DED8C8',
+          toggleSave: () => {
+            const r = Object.assign({}, s.removed);
+            const ids = savedIds.slice();
+            if (on) { r[j.id] = true; } else {
+              delete r[j.id];
+              if (ids.indexOf(j.id) === -1) ids.push(j.id);
+            }
+            this.setState({ removed: r, savedIds: ids });
+          }
+        };
+      }),
+      noJobs: filtered.length === 0,
+
+      meterPct: String(pct), meterDeg: String(Math.round(pct * 3.6)),
+      meterColor: pct >= 100 ? '#C8952E' : '#1B4E8F',
+      meterNext: pct >= 100 ? 'Your profile is complete.' : (d.profile && d.profile.nextLabel) || 'Continue your profile',
+
+      saved: savedRows.map((x) => ({
+        title: x.title, employer: x.employer, salary: x.salary,
+        // The label travels with its own value — never "CLOSES" over a verification date.
+        dateLine: x.closes ? 'CLOSES ' + x.closes : x.verified ? 'VERIFIED ' + x.verified : '',
+        remove: () => { const r = Object.assign({}, s.removed); r[x.id] = true; this.setState({ removed: r }); }
+      })),
+      savedCount: savedRows.length + (savedRows.length === 1 ? ' JOB' : ' JOBS'),
+      noSaved: savedRows.length === 0,
+
+      applications: (d.applications || []).map((a) => {
+        const accent = stageColor[a.stage] || '#5A6B80';
+        return {
+          title: a.title, employer: a.employer, note: a.note, accent: accent,
+          stageLabel: (a.stages[a.stage - 1] ? a.stages[a.stage - 1].name.toUpperCase() : '') + (a.stage === 4 ? ' \u00B7 CONGRATULATIONS' : ''),
+          steps: a.stages.map((st, i) => ({
+            name: st.name,
+            date: st.date || (i === a.stage ? 'NEXT STEP' : 'NOT YET'),
+            bar: i < a.stage ? accent : '#EDE7D8',
+            fg: i < a.stage ? '#123A6B' : '#5A6B80'
+          }))
+        };
+      }),
+
+      events: (d.events || []).map((e) => ({
+        date: e.date, tag: e.tag, title: e.title, time: e.time, place: e.place, detail: e.detail
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+{
+  "updated": "18 AUG 2026",
+  "sample": true,
+  "counts": {
+    "vacancies": 62,
+    "employers": 148,
+    "placed": 312,
+    "period": "1 JAN – 18 AUG 2026"
+  },
+  "employers": [
+    {
+      "name": "Sample Logistics Corp.",
+      "kind": "LOCAL"
+    },
+    {
+      "name": "Sample BPO Services",
+      "kind": "LOCAL"
+    },
+    {
+      "name": "Sample Manpower Agency",
+      "kind": "OVERSEAS"
+    },
+    {
+      "name": "Sample Retail Group",
+      "kind": "LOCAL"
+    },
+    {
+      "name": "Sample Food Manufacturing",
+      "kind": "LOCAL"
+    },
+    {
+      "name": "Sample Overseas Placement",
+      "kind": "OVERSEAS"
+    }
+  ],
+  "jobs": [
+    {
+      "title": "Warehouse Associate",
+      "employer": "Sample Employer Inc.",
+      "place": "MOLINO IV, BACOOR",
+      "salary": "₱13,000–15,000 / MONTH",
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "12 AUG 2026"
+    },
+    {
+      "title": "Customer Service Representative",
+      "employer": "Sample BPO Services Corp.",
+      "place": "BACOOR (NIGHT SHIFT)",
+      "salary": "₱18,000–22,000 / MONTH",
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "09 AUG 2026"
+    },
+    {
+      "title": "Caregiver",
+      "employer": "Sample Manpower Agency",
+      "place": "TAICHUNG, TAIWAN",
+      "salary": "NT$27,470 / MONTH",
+      "scope": "OVERSEAS",
+      "dmw": "DMW LICENCE POEA-000-LB-000000-R",
+      "verified": "05 AUG 2026"
+    },
+    {
+      "title": "Delivery Rider",
+      "employer": "Sample Retail Group",
+      "place": "ZAPOTE V, BACOOR",
+      "salary": "₱14,500 + ALLOWANCE / MONTH",
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "04 AUG 2026"
+    },
+    {
+      "title": "Production Operator",
+      "employer": "Sample Food Manufacturing",
+      "place": "MAMBOG III, BACOOR",
+      "salary": "₱12,800–14,000 / MONTH",
+      "scope": "LOCAL",
+      "dmw": null,
+      "verified": "01 AUG 2026"
+    },
+    {
+      "title": "Welder (6G)",
+      "employer": "Sample Overseas Placement",
+      "place": "JUBAIL, SAUDI ARABIA",
+      "salary": "SAR 2,800 / MONTH",
+      "scope": "OVERSEAS",
+      "dmw": "DMW LICENCE POEA-000-LB-000000-R",
+      "verified": "28 JUL 2026"
+    }
+  ],
+  "announcements": [
+    {
+      "date": "27 AUG 2026",
+      "tag": "JOB FAIR",
+      "title": "City-wide job fair — Bacoor City Hall grounds",
+      "detail": "8:00–16:00. 24 verified employers. Bring two copies of your résumé and any valid ID."
+    },
+    {
+      "date": "EVERY TUE & THU",
+      "tag": "WALK-IN",
+      "title": "Walk-in registration and counselling",
+      "detail": "8:00–15:00 at the PESO office, ground floor, Bacoor City Hall. No appointment needed."
+    },
+    {
+      "date": "03 SEP 2026",
+      "tag": "SPECIAL RECRUITMENT",
+      "title": "Special recruitment activity — Taiwan factory workers",
+      "detail": "Conducted by a DMW-licensed agency under PESO supervision. No placement fee is collected on site."
+    }
+  ],
+  "profileSections": [
+    {
+      "id": "work",
+      "name": "Work experience",
+      "fields": [
+        {
+          "label": "Company name",
+          "type": "text",
+          "placeholder": "Most recent employer"
+        },
+        {
+          "label": "Position held",
+          "type": "text"
+        },
+        {
+          "label": "Months / years of service",
+          "type": "text",
+          "placeholder": "e.g. 2 years, 3 months"
+        },
+        {
+          "label": "Status of employment",
+          "type": "select",
+          "options": [
+            "Permanent",
+            "Contractual",
+            "Probationary",
+            "Part-time",
+            "Self-employed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "education",
+      "name": "Education and training",
+      "fields": [
+        {
+          "label": "Highest level completed",
+          "type": "select",
+          "options": [
+            "Elementary",
+            "High school",
+            "Senior high school",
+            "Vocational / TESDA",
+            "College",
+            "Post-graduate"
+          ]
+        },
+        {
+          "label": "School name",
+          "type": "text"
+        },
+        {
+          "label": "Course or strand",
+          "type": "text"
+        },
+        {
+          "label": "Year last attended",
+          "type": "text",
+          "placeholder": "YYYY"
+        }
+      ]
+    },
+    {
+      "id": "tvet",
+      "name": "Technical and vocational records",
+      "fields": [
+        {
+          "label": "Training or course title",
+          "type": "text",
+          "help": "Leave blank if none."
+        },
+        {
+          "label": "Training institution",
+          "type": "text"
+        },
+        {
+          "label": "Hours of training",
+          "type": "text"
+        },
+        {
+          "label": "Certificate received",
+          "type": "text",
+          "placeholder": "e.g. Certificate of Completion"
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "name": "Skills and competencies",
+      "fields": [
+        {
+          "label": "Skills you can be hired for",
+          "type": "chips",
+          "options": [
+            "Carpentry",
+            "Driving",
+            "Electrical work",
+            "Plumbing",
+            "Welding",
+            "Sewing",
+            "Cooking",
+            "Domestic work",
+            "Caregiving",
+            "Computer literacy",
+            "Customer service",
+            "Bookkeeping",
+            "Sales",
+            "Masonry"
+          ]
+        },
+        {
+          "label": "Other skills not listed",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "id": "eligibility",
+      "name": "Eligibility and licences",
+      "fields": [
+        {
+          "label": "Civil service eligibility",
+          "type": "text",
+          "help": "Professional, sub-professional, or leave blank."
+        },
+        {
+          "label": "PRC licence",
+          "type": "text",
+          "placeholder": "Profession and licence number"
+        },
+        {
+          "label": "TESDA National Certificate",
+          "type": "select",
+          "options": [
+            "None",
+            "NC I",
+            "NC II",
+            "NC III",
+            "NC IV"
+          ]
+        },
+        {
+          "label": "Driver's licence",
+          "type": "select",
+          "options": [
+            "None",
+            "Student permit",
+            "Non-professional",
+            "Professional"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "language",
+      "name": "Language proficiency",
+      "fields": [
+        {
+          "label": "Filipino",
+          "type": "select",
+          "options": [
+            "Read",
+            "Write",
+            "Speak",
+            "Understand",
+            "All of these"
+          ]
+        },
+        {
+          "label": "English",
+          "type": "select",
+          "options": [
+            "Read",
+            "Write",
+            "Speak",
+            "Understand",
+            "All of these"
+          ]
+        },
+        {
+          "label": "Other language",
+          "type": "text",
+          "placeholder": "e.g. Mandarin, Arabic, Japanese"
+        }
+      ]
+    },
+    {
+      "id": "preferences",
+      "name": "Job preferences",
+      "fields": [
+        {
+          "label": "Preferred position",
+          "type": "text",
+          "placeholder": "e.g. Warehouse associate"
+        },
+        {
+          "label": "Preferred industry",
+          "type": "select",
+          "options": [
+            "Manufacturing",
+            "Retail and food service",
+            "Construction",
+            "Transport and logistics",
+            "BPO and IT",
+            "Health and care work",
+            "Domestic work",
+            "Agriculture and fishing"
+          ]
+        },
+        {
+          "label": "Employment type",
+          "type": "select",
+          "options": [
+            "Full-time",
+            "Part-time",
+            "Contractual",
+            "Project-based"
+          ]
+        },
+        {
+          "label": "Expected monthly salary",
+          "type": "text",
+          "placeholder": "In pesos"
+        },
+        {
+          "label": "Willing to work",
+          "type": "select",
+          "options": [
+            "In Bacoor and nearby",
+            "Anywhere in the Philippines",
+            "Overseas",
+            "Local or overseas"
+          ]
+        },
+        {
+          "label": "Preferred barangay",
+          "type": "select",
+          "options": [
+            "Any barangay in Bacoor",
+            "Molino IV",
+            "Talaba VII",
+            "Zapote V",
+            "Mambog III",
+            "Niog II"
+          ]
+        },
+        {
+          "label": "Preferred country, if overseas",
+          "type": "text",
+          "placeholder": "Leave blank if working locally"
+        }
+      ]
+    },
+    {
+      "id": "documents",
+      "name": "Documents",
+      "fields": [
+        {
+          "label": "Résumé",
+          "type": "file",
+          "help": "PDF or photo. Up to 5 MB."
+        },
+        {
+          "label": "Valid ID",
+          "type": "file",
+          "help": "Any government-issued ID. PDF or photo, up to 5 MB."
+        }
+      ]
+    }
+  ],
+  "employerDocs": {
+    "local": [
+      {
+        "id": "reg",
+        "name": "SEC, DTI, or CDA registration",
+        "help": "Proof the business is registered.",
+        "required": true
+      },
+      {
+        "id": "permit",
+        "name": "Mayor's / Business Permit",
+        "help": "Current year only.",
+        "required": true
+      },
+      {
+        "id": "bir",
+        "name": "BIR Certificate of Registration",
+        "help": "Form 2303.",
+        "required": true
+      },
+      {
+        "id": "dole",
+        "name": "DOLE Certificate of No Pending Case",
+        "help": "Issued by the DOLE regional office.",
+        "required": true
+      },
+      {
+        "id": "profile",
+        "name": "Company profile",
+        "help": "What the company does, in one or two pages.",
+        "required": true
+      },
+      {
+        "id": "vacancies",
+        "name": "List of current vacancies",
+        "help": "With qualifications and salary range for each.",
+        "required": true
+      },
+      {
+        "id": "repid",
+        "name": "Valid ID of authorised representative",
+        "help": "The person filing on the company’s behalf.",
+        "required": true
+      },
+      {
+        "id": "auth",
+        "name": "Authorisation letter or Secretary's Certificate",
+        "help": "Names the representative and what they may sign.",
+        "required": true
+      }
+    ],
+    "overseasExtra": [
+      {
+        "id": "dmw",
+        "name": "Valid DMW licence",
+        "help": "Include licence number and expiry date.",
+        "required": true
+      },
+      {
+        "id": "joborder",
+        "name": "Job Order / Manpower Request",
+        "help": "Must be accredited by DMW.",
+        "required": true
+      },
+      {
+        "id": "sra",
+        "name": "Special Recruitment Authority (SRA)",
+        "help": "Only if recruiting outside your registered address.",
+        "required": false
+      },
+      {
+        "id": "principal",
+        "name": "Principal / foreign employer accreditation",
+        "help": "Accreditation documents for the foreign employer.",
+        "required": true
+      }
+    ]
+  },
+  "uploadRules": {
+    "types": "PDF, JPG, PNG",
+    "maxSize": "5 MB per file"
+  },
+  "denial": [
+    {
+      "docId": "permit",
+      "reason": "The permit you sent expired on 31 December 2025.",
+      "fix": "Attach your 2026 Mayor’s Permit. Everything else you sent has passed."
+    },
+    {
+      "docId": "vacancies",
+      "reason": "The vacancy list has no salary range for three of the five positions.",
+      "fix": "Add a salary range to each position, then attach the list again."
+    }
+  ]
+}
